@@ -466,6 +466,9 @@ int main(void)
 
     printf("+OK Local BlackJack open\n");
 
+	//BET
+	argv[0] = "BET";
+	argv[1] = "10";
 	command(&game, 2, argv);
 
 	return 0;
