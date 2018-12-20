@@ -10,6 +10,7 @@
 #include <time.h>
 #include <ctype.h>
 #include "misc.h"
+#include "header.h"
 
 time_t boot;
 #define MAXARGS 32
@@ -18,6 +19,9 @@ static const char CARDS[] = "A23456789TJQK";
 int pid;
 int value = -1;
 int hit = 0;
+
+st_message *message;
+int msgID;
 
 struct hand
 {
@@ -316,7 +320,7 @@ void cmd_bet(struct game *game, int argc, char *argv[])
 
 	char faceup = game->dealer.cards[0];
 
-	//printf("+OK BET %d HAND %s %d FACEUP %c %d\n", game->bet, hand_string(&game->player), hand_value(&game->player), faceup, card_value(faceup));
+	printf("+OK BET %d HAND %s %d FACEUP %c %d\n", game->bet, hand_string(&game->player), hand_value(&game->player), faceup, card_value(faceup));
 }
 
 void cmd_hit(struct game *game, int argc, char *argv[])
@@ -339,7 +343,7 @@ void cmd_hit(struct game *game, int argc, char *argv[])
 		return;
 	}
 
-	printf("\n+OK GOT %s %d\n", hand_string(&game->player), hand_value(&game->player));
+	//printf("\n+OK GOT %s %d\n", hand_string(&game->player), hand_value(&game->player));
 }
 
 void cmd_stand(struct game *game, int argc, char *argv[])
@@ -367,7 +371,7 @@ void cmd_hand(struct game *game, int argc, char *argv[])
 	}
 
 	for (i = 0; i < game->player.ncards; i++)
-	 	printf("%c", game->player.cards[i]);
+	    printf("%c", game->player.cards[i]);
 
 	value = hand_value(&game->player);
 	printf(" %d\n", hand_value(&game->player));
@@ -478,154 +482,10 @@ int main(void)
 	pid = atoi(cpid);
 	fflush(stdin);
 
-	char cmoney[100];
-	printf("How much u have? ");
-	fgets(cmoney, 100, stdin);
-	printf("Initial money: %s", cmoney);
-	fflush(stdin);
-
-	pid = 5;
-
-	//Starting local blackjack
-	char *cp;
-	pid_t pid;
-	int argc;
-	char *argv[MAXARGS];
-	struct game game;
-
-	srand(boot ^ pid);
-
-	game.user = "acidburn";
-	game.state = STATE_IDLE;
-
-	printf("+OK Local BlackJack open\n");
-
-	int money = atoi(cmoney);
-
-	//BET money
-	argv[0] = "BET";
-	argv[1] = "1";
-	command(&game, 2, argv);
-
-	//check value
-	argv[0] = "HAND";
-	command(&game, 1, argv);
-	// printf("%d\n", value);
-
-	int count = 0;
-	int win = 0;
-
-	// while(money < 20000){
-	while(1){
-		printf("\n %d", value);
-		if(value == -1){
-			//check value
-			argv[0] = "HAND";
-			command(&game, 1, argv);
-			// printf("%d\n", value);
-			count++;
-			continue;
-		}
-		else if(value == 0){
-
-			if(win == 1){
-				printf(" win\n");
-				printf("%d hits\n", hit);
-
-				/* BET 10000 */
-				nprintf(fd, "BET 2\n");
-				if (!readline(fd, buf, sizeof(buf)))
-					return 1;
-				printf("buf = %s\n", buf);
-
-				for(int i =0 ;i<hit; i++){
-					/* BET 10000 */
-					nprintf(fd, "HIT\n");
-					if (!readline(fd, buf, sizeof(buf)))
-						return 1;
-					printf("buf = %s\n", buf);
-				}
-
-				/*Stand*/
-				nprintf(fd, "STAND\n");
-				if (!readline(fd, buf, sizeof(buf)))
-					return 1;
-				printf("buf = %s\n", buf);
-
-				win = 0;
-				hit = 0;
-				money += 2;
-				count ++;
-				break;
-			}
-			else{
-				printf(" lose");
-
-				/* BET 1 */
-				nprintf(fd, "BET 1\n");
-				if (!readline(fd, buf, sizeof(buf)))
-					return 1;
-				printf("buf = %s\n", buf);
-
-				/*Stand*/
-				nprintf(fd, "STAND\n");
-				if (!readline(fd, buf, sizeof(buf)))
-					return 1;
-				printf("buf = %s\n", buf);				
-
-				money -= 1;
-			}
-
-			printf("\n======================");
-
-			//BET money
-			argv[0] = "BET";
-			argv[1] = "1";
-			command(&game, 2, argv);
-			count++;
-
-			//check value
-			argv[0] = "HAND";
-			command(&game, 1, argv);
-			// printf("%d\n", value);
-			continue;
-		}
-		else if(value > 0 && value <21){
-			//HIT
-			argv[0] = "HIT";
-			argv[1] = "1";
-			command(&game, 1, argv);
-			count++;
-			continue;
-		}
-		else if(value == 21){
-			//STAND money
-			win = 1;
-			argv[0] = "STAND";
-			argv[1] = "1";
-			command(&game, 1, argv);
-			value = 0;
-			count++;
-			continue;
-		}
-		else{
-			//exit
-			argv[0] = "EXIT";
-			argv[1] = "1";
-			command(&game, 1, argv);
-			value = 0;
-			count++;
-			hit = 0;
-			continue;
-		}
-
-	}
-
-	/* Check status */
-	nprintf(fd, "STATUS\n");
-	if (!readline(fd, buf, sizeof(buf)))
-		return 1;
-	printf("buf = %s\n", buf);
+	//create message q
+	msgID = msgget(MSGKEY, IPC_CREAT | 0666);		
+	if(msgID == -1) { perror("manage msgget error"); exit(1); }
+	message = malloc(sizeof(st_message));
 	
 	return 0;
 }
