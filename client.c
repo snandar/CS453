@@ -157,50 +157,51 @@ int main(void)
 		printf(" 5 HIT");
 		printf(" 6 STAND\n");
 
-		
+
 		printf("Choose an option: ");
 		fgets(cinput, 2, stdin);
 		input = atoi(cinput);
 
 		switch (input)
 		{
-
-		case 0:
-			nprintf(fd, "BET 1\n");
-			if (!readline(fd, buf, sizeof(buf)))
-				return 1;
-			break; /* optional */
-		case 1:
-			nprintf(fd, "BET 1000\n");
-			if (!readline(fd, buf, sizeof(buf)))
-				return 1;
-			break; /* optional */
-		case 2:
-			nprintf(fd, "BET 10000\n");
-			if (!readline(fd, buf, sizeof(buf)))
-				return 1;
-			break; /* optional */
-		case 3:
-			nprintf(fd, "BET 20000\n");
-			if (!readline(fd, buf, sizeof(buf)))
-				return 1;
-			break; /* optional */
-		case 4:
-			nprintf(fd, "BET 50000\n");
-			if (!readline(fd, buf, sizeof(buf)))
-				return 1;
-			break; /* optional */
-		case 5:
-			nprintf(fd, "HIT\n");
-			if (!readline(fd, buf, sizeof(buf)))
-				return 1;
-			break; /* optional */
-		case 6:
-			nprintf(fd, "STAND\n");
-			if (!readline(fd, buf, sizeof(buf)))
-				return 1;
-			break; /* optional */
-		}
+			case 0:
+				nprintf(fd, "BET 1\n");
+				if (!readline(fd, buf, sizeof(buf)))
+					return 1;
+				break; /* optional */
+			case 1:
+				nprintf(fd, "BET 1000\n");
+				if (!readline(fd, buf, sizeof(buf)))
+					return 1;
+				break; /* optional */
+			case 2:
+				nprintf(fd, "BET 10000\n");
+				if (!readline(fd, buf, sizeof(buf)))
+					return 1;
+				break; /* optional */
+			case 3:
+				nprintf(fd, "BET 20000\n");
+				if (!readline(fd, buf, sizeof(buf)))
+					return 1;
+				break; /* optional */
+			case 4:
+				nprintf(fd, "BET 50000\n");
+				if (!readline(fd, buf, sizeof(buf)))
+					return 1;
+				break; /* optional */
+			case 5:
+				nprintf(fd, "HIT\n");
+				if (!readline(fd, buf, sizeof(buf)))
+					return 1;
+				break; /* optional */
+			case 6:
+				nprintf(fd, "STAND\n");
+				if (!readline(fd, buf, sizeof(buf)))
+					return 1;
+				break; /* optional */
+			default: 
+				break;
+			}
 
 		printf("buf = %s\n", buf);
 	}
