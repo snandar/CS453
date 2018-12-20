@@ -199,14 +199,13 @@ int main(void)
 				return 1;
 			break; /* optional */
 		default:
-			break;
+			nprintf(fd, "STATUS\n");
+			if (!readline(fd, buf, sizeof(buf)))
+				return 1;
+			break; /* optional */
 		}
 
 		printf("buf = %s\n", buf);
-		/* Check status */
-		nprintf(fd, "STATUS\n");
-		if (!readline(fd, buf, sizeof(buf)))
-			return 1;
 	}
 
 	return 0;
