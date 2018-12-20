@@ -477,9 +477,9 @@ int main(void)
 	pid = atoi(cpid);
 	fflush(stdin);
 
-	char *cmoney;
+	char cmoney[100];
 	printf("How much u have? ");
-	fgets(cmoney, sizeof(cmoney), stdin);
+	fgets(cmoney, 100, stdin);
 	printf("Initial money: %s", cmoney);
 	fflush(stdin);
 
