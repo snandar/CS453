@@ -515,7 +515,8 @@ int main(void)
 	int count = 0;
 	int win = 0;
 
-	while(money < 1000000){
+	// while(money < 20000){
+	while(count < 20){
 		printf("\n %d", value);
 		if(value == -1){
 			//check value
@@ -554,6 +555,7 @@ int main(void)
 				win = 0;
 				hit = 0;
 				money += 2;
+				count ++;
 			}
 			else{
 				printf(" lose");
