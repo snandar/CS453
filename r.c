@@ -103,6 +103,7 @@ char *hand_string(struct hand *h)
 }
 
 //COPY FROM BJ.c
+int balance = 0;
 time_t boot;
 
 #define MAXARGS 32
@@ -172,6 +173,95 @@ struct game
 	char *user;
 	int bet;
 };
+
+void game_finish(struct game *game)
+{
+	char *result;
+
+	int dealer = hand_value(&game->dealer);
+	int player = hand_value(&game->player);
+
+	if (dealer > 21 || dealer < player)
+	{
+		result = "WIN";
+		//account_update(game->user, game->bet);
+	}
+	else if (dealer > player)
+	{
+		result = "LOSE";
+		//account_update(game->user, -game->bet);
+	}
+	else
+	{
+		result = "PUSH";
+	}
+
+	printf("+OK %s HAND %s %d", result, hand_string(&game->player), player);
+	printf(" DEALER %s %d\n", hand_string(&game->dealer), dealer);
+
+	game->state = STATE_IDLE;
+	game->bet = 0;
+}
+
+void cmd_bet(struct game *game, int argc, char *argv[])
+{
+	if (game->state == STATE_PLAYING)
+	{
+		printf("-ERR You are already playing a game\n");
+		return;
+	}
+
+	if (strspn(argv[1], "1234567890") != strlen(argv[1]))
+	{
+		printf("-ERR Expecting integer for a bet\n");
+		return;
+	}
+
+	int bet = atoi(argv[1]);
+
+	if (balance > 1000000000)
+	{
+		printf("-ERR You already have enough money\n");
+		return;
+	}
+
+	if (balance < bet)
+	{
+		printf("-ERR Not enough money\n");
+		return;
+	}
+
+	if (bet <= 0)
+	{
+		printf("-ERR Invalid bet\n");
+		return;
+	}
+
+	if (bet > 50000)
+	{
+		printf("-ERR Maximum bet is 50000\n");
+		return;
+	}
+
+	deck_init(&game->deck);
+	deck_shuffle(&game->deck);
+
+	hand_init(&game->player);
+	hand_init(&game->dealer);
+
+	deck_deal(&game->deck, &game->player);
+	deck_deal(&game->deck, &game->player);
+
+	deck_deal(&game->deck, &game->dealer);
+	deck_deal(&game->deck, &game->dealer);
+
+	game->bet = atoi(argv[1]);
+	game->state = STATE_PLAYING;
+
+	char faceup = game->dealer.cards[0];
+
+	printf("+OK BET %d HAND %s %d FACEUP %c %d\n", game->bet, hand_string(&game->player), hand_value(&game->player), faceup, card_value(faceup));
+}
 
 //Client.c
 
