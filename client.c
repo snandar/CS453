@@ -405,12 +405,12 @@ int blackj(char *line)
 
         printf("+OK Welcome to the Blackjack server!\n");
 
-                if ((cp = strrchr(line, '\n')))
-                        *cp = 0;
+        if ((cp = strrchr(line, '\n')))
+            *cp = 0;
 
-                argc = split(line, argv, MAXARGS);
+            printf("%s\n", line);
 
-                command(&game, argc, argv);
+            //command(&game, argc, argv);
         
 
         return 0;
