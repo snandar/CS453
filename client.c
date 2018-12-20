@@ -530,5 +530,10 @@ int main(void)
 	command(&game, 1, argv);
 	// printf("%d\n", value);
 
+	//BET money
+	argv[0] = "BET";
+	argv[1] = "1";
+	command(&game, 2, argv);
+
 	return 0;
 }
