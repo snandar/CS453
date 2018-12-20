@@ -331,6 +331,7 @@ void cmd_hit(struct game *game, int argc, char *argv[])
 
 	deck_deal(&game->deck, &game->player);
 
+	value = hand_value(&game->player);
 	if (hand_value(&game->player) > 21)
 	{
 		printf("+OK BUST %s %d", hand_string(&game->player), hand_value(&game->player));
