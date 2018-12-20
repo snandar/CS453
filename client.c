@@ -153,11 +153,10 @@ int main(void)
 	printf("BET 0=1 1=1000, 2=10,000, 3 = 20,000, 4 = 50,000");
 	printf(" 5 HIT");
 	printf(" 6 STAND\n");
-
+	printf("Choose an option: ");
 	/* Try */
 	while (ok == 1)
 	{
-		printf("Choose an option: ");
 		fgets(cinput, 2, stdin);
 		input = atoi(cinput);
 
