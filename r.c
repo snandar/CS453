@@ -11,7 +11,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-int balance = 0;
+int balance = 1000;
 
 //COPY from ACCOUNT.c
 
@@ -535,11 +535,13 @@ int main(void)
 	game.user = "acidburn";
 	game.state = STATE_IDLE;
 
+        // getchar();
         //Get initial balance
-        char cbalance[20];
-        printf("balance : ");
-        scanf(" %c", &cbalance);
-	balance = atoi(cbalance);
+        // char cbalance[20];
+        // printf("balance : ");
+        // scanf(" %c", &cbalance);
+	// balance = atoi(cbalance);
+        balance = 10000;
         printf("Initial money: %d\n", balance);
 
         printf("+OK Local Blackjack server!\n");
