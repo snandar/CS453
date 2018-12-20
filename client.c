@@ -100,7 +100,7 @@ int main(void)
 	struct sockaddr_in sa;
 	char buf[4096];
 	int epoch;
-	char cpid[2];
+	char cpid[5];
 
 	if (!inet_aton(host, &sa.sin_addr))
 	{
@@ -141,7 +141,7 @@ int main(void)
 	printf("epoch = %d\n", epoch);
 
 	printf("hello. What is the pid? ");
-	fgets(cpid, 2, stdin);
+	fgets(cpid, 5, stdin);
 	printf("You put %s\n", cpid);
 	int pid = atoi(cpid);
 
@@ -149,15 +149,14 @@ int main(void)
 	char cinput[2];
 	int input;
 
+	printf("\n");
+	printf("BET 0=1 1=1000, 2=10,000, 3 = 20,000, 4 = 50,000");
+	printf(" 5 HIT");
+	printf(" 6 STAND\n");
+
 	/* Try */
 	while (ok == 1)
 	{
-		printf("\n");
-		printf("BET 0=1 1=1000, 2=10,000, 3 = 20,000, 4 = 50,000");
-		printf(" 5 HIT");
-		printf(" 6 STAND\n");
-
-
 		printf("Choose an option: ");
 		fgets(cinput, 2, stdin);
 		input = atoi(cinput);
