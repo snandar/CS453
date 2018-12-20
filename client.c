@@ -99,9 +99,7 @@ int readline(int fd, char *buf, size_t maxlen)
 }
 
 //Copied from Blackjack
-
 time_t boot;
-
 #define MAXARGS 32
 
 int card_value(char c)
@@ -170,6 +168,34 @@ struct game
         int bet;
 };
 
+void game_finish(struct game *game)
+{
+        char *result;
+
+        int dealer = hand_value(&game->dealer);
+        int player = hand_value(&game->player);
+
+        if (dealer > 21 || dealer < player)
+        {
+                result = "WIN";
+                account_update(game->user, game->bet);
+        }
+        else if (dealer > player)
+        {
+                result = "LOSE";
+                account_update(game->user, -game->bet);
+        }
+        else
+        {
+                result = "PUSH";
+        }
+
+        printf("+OK %s HAND %s %d", result, hand_string(&game->player), player);
+        printf(" DEALER %s %d\n", hand_string(&game->dealer), dealer);
+
+        game->state = STATE_IDLE;
+        game->bet = 0;
+}
 
 //Main function
 int main(void)
