@@ -146,7 +146,8 @@ int main(void)
 	int pid = atoi(cpid);
 
 	int ok = 1;
-	int bet;
+	char cinput[2];
+	int input;
 
 	/* Try */
 	while (ok == 1)
@@ -155,8 +156,10 @@ int main(void)
 		printf("BET 0=1, 1=1000, 2=10,000, 3 = 20,000, 4 = 50,000");
 		printf("5 HIT");
 		printf("6 STAND");
-
-		switch (bet)
+		fgets(cinput, 2, stdin);
+		input = atoi(cinput);
+		
+		switch (input)
 		{
 
 		case 0:
