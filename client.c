@@ -500,7 +500,7 @@ int main(void)
 
 	printf("+OK Local BlackJack open\n");
 
-	int money = atoi(cmoney);
+	//int money = atoi(cmoney);
 
 	//BET money
 	argv[0] = "BET";
