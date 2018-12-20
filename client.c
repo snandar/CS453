@@ -500,35 +500,40 @@ int main(void)
 
 	int money = atoi(cmoney);
 
-	//while (money < 1000000)
-	//{
 	//BET money
 	argv[0] = "BET";
 	argv[1] = "1";
 	command(&game, 2, argv);
 
-	//check value
-	argv[0] = "HAND";
-	command(&game, 1, argv);
-	// printf("%d\n", value);
+	while (money < 1000000)
+	{
+		//check value
+		argv[0] = "HAND";
+		command(&game, 1, argv);
+		// printf("%d\n", value);
 
-	if (value < 21)
-	{
-		argv[0] = "HIT";
-		argv[1] = "1";
-		command(&game, 1, argv);
+		if (value < 21)
+		{
+			argv[0] = "HIT";
+			argv[1] = "1";
+			command(&game, 1, argv);
+		}
+		else if (value == 21)
+		{
+
+			printf("WIN\n");
+			money = 1000000;
+
+		}
+		else
+		{ //value is > 21 //Already busted
+			//BET money
+			argv[0] = "BET";
+			argv[1] = "1";
+			command(&game, 2, argv);
+		}
+
 	}
-	else if (value == 21)
-	{
-		printf("WIN\n");
-	}
-	else
-	{ //value is > 21
-		argv[0] = "EXIT";
-		argv[1] = "1";
-		command(&game, 1, argv);
-	}
-	//}
 
 	return 0;
 }
