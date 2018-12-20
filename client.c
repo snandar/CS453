@@ -452,9 +452,21 @@ int main(void)
 	printf("Initial money: %s", cmoney);
 	fflush(stdin);
 
-	char* incommand = "BET 100";
+	//Starting local blackjack
+	char *cp;
+    pid_t pid;
+    int argc;
+    char *argv[MAXARGS];
+    struct game game;
 
-	blackj(incommand);
+	srand(boot ^ pid);
+
+    game.user = "acidburn";
+    game.state = STATE_IDLE;
+
+    printf("+OK Local BlackJack open\n");
+
+	command(&game, 2, argv);
 
 	return 0;
 }
