@@ -9,11 +9,24 @@
 #include <errno.h>
 #include <time.h>
 #include <ctype.h>
-#include "deck.h"
 #include "misc.h"
 
 time_t boot;
 #define MAXARGS 32
+
+struct hand
+{
+	// cards[0..ncards-1] is the hand
+	char cards[DECK_SIZE];
+	int ncards;
+};
+
+struct deck
+{
+	// remaining cards: cards[top..DECK_SIZE-1]
+	int top;
+	char cards[DECK_SIZE];
+};
 
 ssize_t readn(int fd, char *buffer, size_t count)
 {
@@ -99,6 +112,18 @@ int readline(int fd, char *buf, size_t maxlen)
 }
 
 //copy from deck.c
+char *hand_string(struct hand *h)
+{
+	static char buf[1024];
+	int i;
+
+	for (i = 0; i < h->ncards; i++)
+		buf[i] = h->cards[i];
+
+	buf[i] = 0;
+
+	return buf;
+}
 
 //Copied from Blackjack
 time_t boot;
