@@ -157,10 +157,9 @@ int main(void)
 	/* Try */
 	while (ok == 1)
 	{
+		fflush(stdin);
 		fgets(cinput, 2, stdin);
 		input = atoi(cinput);
-
-		sleep(5);
 
 		switch (input)
 		{
