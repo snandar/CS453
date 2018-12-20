@@ -17,8 +17,10 @@ ssize_t readn(int fd, char *buffer, size_t count)
 	{
 		block = read(fd, &buffer[offset], count);
 
-		if (block < 0) return block;
-		if (!block) return offset;
+		if (block < 0)
+			return block;
+		if (!block)
+			return offset;
 
 		offset += block;
 		count -= block;
@@ -36,8 +38,10 @@ ssize_t writen(int fd, char *buffer, size_t count)
 	{
 		block = write(fd, &buffer[offset], count);
 
-		if (block < 0) return block;
-		if (!block) return offset;
+		if (block < 0)
+			return block;
+		if (!block)
+			return offset;
 
 		offset += block;
 		count -= block;
@@ -96,7 +100,7 @@ int main(void)
 	struct sockaddr_in sa;
 	char buf[4096];
 	int epoch;
-    char cpid[2];
+	char cpid[2];
 
 	if (!inet_aton(host, &sa.sin_addr))
 	{
@@ -136,18 +140,63 @@ int main(void)
 
 	printf("epoch = %d\n", epoch);
 
-    printf("hello. What is the pid? ");
-    fgets(cpid, 2, stdin);
-    printf("You put %s\n",cpid);
-    int pid = atoi(cpid);
+	printf("hello. What is the pid? ");
+	fgets(cpid, 2, stdin);
+	printf("You put %s\n", cpid);
+	int pid = atoi(cpid);
 
-	/* Try Betting */
-	nprintf(fd, "BET 1\n");
-	if (!readline(fd, buf, sizeof(buf)))
-		return 1;
-    printf("buf = %s\n", buf);
+	int ok = 1;
+	int bet;
 
+	/* Try */
+	while (ok == 1)
+	{
+		printf("\n");
+		printf("BET 0=1, 1=1000, 2=10,000, 3 = 20,000, 4 = 50,000");
+		printf("5 HIT");
+		printf("6 STAND");
+
+		switch (bet)
+		{
+
+		case 0:
+			nprintf(fd, "BET 1\n");
+			if (!readline(fd, buf, sizeof(buf)))
+				return 1;
+			break; /* optional */
+		case 1:
+			nprintf(fd, "BET 1000\n");
+			if (!readline(fd, buf, sizeof(buf)))
+				return 1;
+			break; /* optional */
+		case 2:
+			nprintf(fd, "BET 10000\n");
+			if (!readline(fd, buf, sizeof(buf)))
+				return 1;
+			break; /* optional */
+		case 3:
+			nprintf(fd, "BET 20000\n");
+			if (!readline(fd, buf, sizeof(buf)))
+				return 1;
+			break; /* optional */
+		case 4:
+			nprintf(fd, "BET 50000\n");
+			if (!readline(fd, buf, sizeof(buf)))
+				return 1;
+			break; /* optional */
+		case 5:
+			nprintf(fd, "HIT\n");
+			if (!readline(fd, buf, sizeof(buf)))
+				return 1;
+			break; /* optional */
+		case 6:
+			nprintf(fd, "STAND\n");
+			if (!readline(fd, buf, sizeof(buf)))
+				return 1;
+			break; /* optional */
+		}
+		printf("buf = %s\n", buf);
+	}
 
 	return 0;
 }
-
