@@ -16,6 +16,7 @@ time_t boot;
 #define DECK_SIZE	52
 static const char CARDS[] = "A23456789TJQK";
 int pid;
+int doneround = -1;
 
 struct hand
 {
@@ -273,6 +274,8 @@ void game_finish(struct game *game)
         printf("+OK %s HAND %s %d", result, hand_string(&game->player), player);
         printf(" DEALER %s %d\n", hand_string(&game->dealer), dealer);
 
+		doneround = 1;
+
         game->state = STATE_IDLE;
         game->bet = 0;
 }
@@ -466,10 +469,15 @@ int main(void)
 
     printf("+OK Local BlackJack open\n");
 
-	//BET
-	argv[0] = "BET";
-	argv[1] = "10";
-	command(&game, 2, argv);
+	int money = atoi(cmoney);
+
+
+		argv[0] = "BET";
+		argv[1] = "1";
+		command(&game, 2, argv);
+
+		printf(" %d\n", hand_value(&game->player));
+
 
 	return 0;
 }
