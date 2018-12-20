@@ -550,6 +550,7 @@ int main(void)
 			argv[0] = "EXIT";
 			argv[1] = "1";
 			command(&game, 1, argv);
+			value = 0;
 		}
 
 		count++;
