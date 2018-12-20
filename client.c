@@ -276,8 +276,8 @@ void game_finish(struct game *game)
 		result = "PUSH";
 	}
 
-	printf("+OK %s HAND %s %d", result, hand_string(&game->player), player);
-	printf(" DEALER %s %d\n", hand_string(&game->dealer), dealer);
+	// printf("+OK %s HAND %s %d", result, hand_string(&game->player), player);
+	// printf(" DEALER %s %d\n", hand_string(&game->dealer), dealer);
 
 	doneround = 1;
 
