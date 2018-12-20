@@ -14,6 +14,7 @@
 time_t boot;
 #define MAXARGS 32
 #define DECK_SIZE	52
+static const char CARDS[] = "A23456789TJQK";
 
 struct hand
 {
@@ -113,6 +114,58 @@ int readline(int fd, char *buf, size_t maxlen)
 }
 
 //copy from deck.c
+void deck_init(struct deck *p)
+{
+	int i, j;
+
+	p->top = 0;
+
+	for (i = 0; i < 4; i++)
+	{
+		for (j = 0; j < 13; j++)
+		{
+			int k = i * 13 + j;
+
+			p->cards[k] = CARDS[j];
+		}
+	}
+}
+
+// shuffle deck using Knuth shuffle
+void deck_shuffle(struct deck *p)
+{
+	int i, r;
+
+	for (i = 1; i < 52; i++)
+	{
+		r = rand() % i;
+		char tmp = p->cards[i];
+		p->cards[i] = p->cards[r];
+		p->cards[r] = tmp;
+	}
+}
+
+char deck_draw(struct deck *p)
+{
+	if (p->top >= DECK_SIZE)
+		return '?';
+
+	return p->cards[p->top++];
+}
+
+void deck_deal(struct deck *p, struct hand *h)
+{
+	if (h->ncards >= DECK_SIZE)
+		return;
+
+	h->cards[h->ncards++] = deck_draw(p);
+}
+
+void hand_init(struct hand *h)
+{
+	h->ncards = 0;
+}
+
 char *hand_string(struct hand *h)
 {
 	static char buf[1024];
@@ -223,7 +276,41 @@ void game_finish(struct game *game)
         game->bet = 0;
 }
 
+void cmd_bet(struct game *game, int argc, char *argv[])
+{
+        if (game->state == STATE_PLAYING)
+        {
+                printf("-ERR You are already playing a game\n");
+                return;
+        }
 
+        if (strspn(argv[1], "1234567890") != strlen(argv[1]))
+        {
+                printf("-ERR Expecting integer for a bet\n");
+                return;
+        }
+
+        int bet = atoi(argv[1]);
+
+        deck_init(&game->deck);
+        deck_shuffle(&game->deck);
+
+        hand_init(&game->player);
+        hand_init(&game->dealer);
+
+        deck_deal(&game->deck, &game->player);
+        deck_deal(&game->deck, &game->player);
+
+        deck_deal(&game->deck, &game->dealer);
+        deck_deal(&game->deck, &game->dealer);
+
+        game->bet = atoi(argv[1]);
+        game->state = STATE_PLAYING;
+
+        char faceup = game->dealer.cards[0];
+
+        printf("+OK BET %d HAND %s %d FACEUP %c %d\n", game->bet, hand_string(&game->player), hand_value(&game->player), faceup, card_value(faceup));
+}
 
 //Main function
 int main(void)
