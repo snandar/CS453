@@ -413,6 +413,9 @@ int blackj(char *cline)
 			strncpy(line, cline, 1023);
 			line[1024] = '\0';
 
+			argc = split(line, argv, MAXARGS);
+			command(&game, argc, argv);
+
         return 0;
 }
 
