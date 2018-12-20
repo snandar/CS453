@@ -281,7 +281,6 @@ void game_finish(struct game *game)
 
 	doneround = 1;
 
-	value = -1;
 	game->state = STATE_IDLE;
 	game->bet = 0;
 }
@@ -355,7 +354,6 @@ void cmd_stand(struct game *game, int argc, char *argv[])
 	while (hand_value(&game->dealer) < 17)
 		deck_deal(&game->deck, &game->dealer);
 
-	value = 0;
 	game_finish(game);
 }
 
@@ -512,16 +510,6 @@ int main(void)
 	while (count < 3 )
 	{
 		if(value == -1){
-			//check value
-			argv[0] = "HAND";
-			command(&game, 1, argv);
-			// printf("%d\n", value);
-		}
-		if(value == 0){
-			//BET money
-				argv[0] = "BET";
-				argv[1] = "1";
-				command(&game, 2, argv);
 			//check value
 			argv[0] = "HAND";
 			command(&game, 1, argv);
