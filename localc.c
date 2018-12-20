@@ -470,7 +470,7 @@ int main(void)
         argv[0] = "HAND";
         command(&game, 1, argv);
         // printf("%d\n", value);
-        printf("HAND\n");
+        printf("HAND %d ", value);
 
         if (value < 21)
         {
@@ -495,7 +495,6 @@ int main(void)
             command(&game, 2, argv);
             printf("BET\n");
         }
-
         count++;
         printf("%d",count);
     }
