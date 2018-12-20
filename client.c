@@ -537,11 +537,13 @@ int main(void)
 			command(&game, 1, argv);
 		}
 		else if(value == 21){
-			//BET money
+			//STAND money
+			printf("WIN!!!!!");
 			argv[0] = "STAND";
 			argv[1] = "1";
 			command(&game, 1, argv);
-			count == 1;
+			
+			value = 0;
 		}
 		else{
 			//exit
