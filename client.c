@@ -528,7 +528,7 @@ int main(void)
 		else if(value == 0){
 
 			if(win == 1){
-				printf(" win");
+				printf(" win\n");
 				printf("%d hits\n", hit);
 				win = 0;
 				hit = 0;
