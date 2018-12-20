@@ -390,35 +390,6 @@ void command(struct game *game, int argc, char *argv[])
         c->fn(game, argc, argv);
 }
 
-int blackj(char *cline)
-{
-        char *cp;
-        pid_t pid;
-        int argc;
-        char *argv[MAXARGS];
-        struct game game;
-
-        srand(boot ^ pid);
-
-        game.user = "acidburn";
-        game.state = STATE_IDLE;
-
-        printf("+OK Welcome to the Blackjack server!\n");
-
-        if ((cp = strrchr(cline, '\n')))
-            *cp = 0;
-
-			char line[1024];
-
-			strncpy(line, cline, 1023);
-			line[1024] = '\0';
-
-			argc = split(line, argv, MAXARGS);
-			command(&game, argc, argv);
-
-        return 0;
-}
-
 //Main function
 int main(void)
 {
