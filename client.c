@@ -199,38 +199,38 @@ struct game
 
 void cmd_bet(struct game *game, int argc, char *argv[])
 {
-	if (game->state == STATE_PLAYING)
-	{
-		printf("-ERR You are already playing a game\n");
-		return;
-	}
+        if (game->state == STATE_PLAYING)
+        {
+                nprintf("-ERR You are already playing a game\n");
+                return;
+        }
 
-	if (strspn(argv[1], "1234567890") != strlen(argv[1]))
-	{
-		printf("-ERR Expecting integer for a bet\n");
-		return;
-	}
+        if (strspn(argv[1], "1234567890") != strlen(argv[1]))
+        {
+                nprintf("-ERR Expecting integer for a bet\n");
+                return;
+        }
 
-	int bet = atoi(argv[1]);
+        int bet = atoi(argv[1]);
 
-	deck_init(&game->deck);
-	deck_shuffle(&game->deck);
+        deck_init(&game->deck);
+        deck_shuffle(&game->deck);
 
-	hand_init(&game->player);
-	hand_init(&game->dealer);
+        hand_init(&game->player);
+        hand_init(&game->dealer);
 
-	deck_deal(&game->deck, &game->player);
-	deck_deal(&game->deck, &game->player);
+        deck_deal(&game->deck, &game->player);
+        deck_deal(&game->deck, &game->player);
 
-	deck_deal(&game->deck, &game->dealer);
-	deck_deal(&game->deck, &game->dealer);
+        deck_deal(&game->deck, &game->dealer);
+        deck_deal(&game->deck, &game->dealer);
 
-	game->bet = atoi(argv[1]);
-	game->state = STATE_PLAYING;
+        game->bet = atoi(argv[1]);
+        game->state = STATE_PLAYING;
 
-	char faceup = game->dealer.cards[0];
+        char faceup = game->dealer.cards[0];
 
-	printf("+OK BET %d HAND %s %d FACEUP %c %d\n", game->bet, hand_string(&game->player), hand_value(&game->player), faceup, card_value(faceup));
+        printf("+OK BET %d HAND %s %d FACEUP %c %d\n", game->bet, hand_string(&game->player), hand_value(&game->player), faceup, card_value(faceup));
 }
 
 void cmd_hit(struct game *game, int argc, char *argv[])
