@@ -362,6 +362,33 @@ static struct command commands[] =
 	{ NULL, 0, NULL }
 };
 
+void command(struct game *game, int argc, char *argv[])
+{
+	struct command *c = commands;
+
+	while (c->cmd != NULL)
+	{
+		if (!strcasecmp(c->cmd, argv[0]))
+			break;
+
+		c++;
+	}
+
+	if (c->cmd == NULL)
+	{
+		printf("-ERR Unknown command\n");
+		return;
+	}
+
+	if (argc < c->args)
+	{
+		printf("-ERR Not enough arguments\n");
+		return;
+	}
+
+	c->fn(game, argc, argv);
+}
+
 //Client.c
 
 ssize_t readn(int fd, char *buffer, size_t count)
@@ -500,7 +527,6 @@ int main(void)
 
         //Get Pid
 	char cpid[5];
-	int pid;
         printf("pid : ");
         scanf(" %c", &cpid);
 	pid = atoi(pid);
