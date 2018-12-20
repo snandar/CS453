@@ -505,8 +505,9 @@ int main(void)
 	argv[1] = "1";
 	command(&game, 2, argv);
 
-	//while (money < 1000000)
-	//{
+	int count = 0;
+	while (count < 3 )
+	{
 		//check value
 		argv[0] = "HAND";
 		command(&game, 1, argv);
@@ -531,7 +532,8 @@ int main(void)
 			command(&game, 2, argv);
 		}
 
-	//}
+		count++;
+	}
 
 	return 0;
 }
