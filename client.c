@@ -351,6 +351,22 @@ void cmd_stand(struct game *game, int argc, char *argv[])
         game_finish(game);
 }
 
+void cmd_hand(struct game *game, int argc, char *argv[])
+{
+        int i;
+
+        if (game->state != STATE_PLAYING)
+        {
+                printf("-ERR You are not playing a game\n");
+                return;
+        }
+
+        for (i = 0; i < game->player.ncards; i++)
+                printf("%c", game->player.cards[i]);
+
+        printf(" %d\n", hand_value(&game->player));
+}
+
 struct command
 {
         const char *cmd;
@@ -363,6 +379,7 @@ static struct command commands[] =
         { "BET",     2, cmd_bet },
         { "HIT",     1, cmd_hit },
         { "STAND",   1, cmd_stand },
+		{ "HAND",    1, cmd_hand },
         { NULL, 0, NULL }
 };
 
@@ -476,7 +493,7 @@ int main(void)
 		argv[1] = "1";
 		command(&game, 2, argv);
 
-		printf(" %d\n", hand_value(game->player));
+		
 
 
 	return 0;
