@@ -327,7 +327,7 @@ void cmd_hit(struct game *game, int argc, char *argv[])
 	}
 
 	deck_deal(&game->deck, &game->player);
-
+	printf("hit\n");
 	value = hand_value(&game->player);
 	if (hand_value(&game->player) > 21)
 	{
@@ -337,7 +337,7 @@ void cmd_hit(struct game *game, int argc, char *argv[])
 		return;
 	}
 
-	printf("\n+OK GOT %s %d\n", hand_string(&game->player), hand_value(&game->player));
+	//printf("\n+OK GOT %s %d\n", hand_string(&game->player), hand_value(&game->player));
 }
 
 void cmd_stand(struct game *game, int argc, char *argv[])
@@ -516,7 +516,7 @@ int main(void)
 	int win = 0;
 
 	while(count != 10){
-		printf("%d)Current value is %d",count, value);
+		printf("\n%d)Current value is %d",count, value);
 		if(value == -1){
 			//check value
 			argv[0] = "HAND";
