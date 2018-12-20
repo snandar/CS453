@@ -16,7 +16,6 @@ time_t boot;
 #define DECK_SIZE 52
 static const char CARDS[] = "A23456789TJQK";
 int pid;
-int doneround = -1;
 int value = -1;
 
 struct hand
@@ -279,8 +278,6 @@ void game_finish(struct game *game)
 	// printf("+OK %s HAND %s %d", result, hand_string(&game->player), player);
 	// printf(" DEALER %s %d\n", hand_string(&game->dealer), dealer);
 
-	doneround = 1;
-
 	game->state = STATE_IDLE;
 	game->bet = 0;
 }
@@ -318,7 +315,7 @@ void cmd_bet(struct game *game, int argc, char *argv[])
 
 	char faceup = game->dealer.cards[0];
 
-	printf("+OK BET %d HAND %s %d FACEUP %c %d\n", game->bet, hand_string(&game->player), hand_value(&game->player), faceup, card_value(faceup));
+	//printf("+OK BET %d HAND %s %d FACEUP %c %d\n", game->bet, hand_string(&game->player), hand_value(&game->player), faceup, card_value(faceup));
 }
 
 void cmd_hit(struct game *game, int argc, char *argv[])
@@ -334,13 +331,13 @@ void cmd_hit(struct game *game, int argc, char *argv[])
 	value = hand_value(&game->player);
 	if (hand_value(&game->player) > 21)
 	{
-		printf("+OK BUST %s %d", hand_string(&game->player), hand_value(&game->player));
-		printf(" DEALER %s %d\n", hand_string(&game->dealer), hand_value(&game->dealer));
+		//printf("+OK BUST %s %d", hand_string(&game->player), hand_value(&game->player));
+		//printf(" DEALER %s %d\n", hand_string(&game->dealer), hand_value(&game->dealer));
 		game->state = STATE_IDLE;
 		return;
 	}
 
-	printf("+OK GOT %s %d\n", hand_string(&game->player), hand_value(&game->player));
+	//printf("+OK GOT %s %d\n", hand_string(&game->player), hand_value(&game->player));
 }
 
 void cmd_stand(struct game *game, int argc, char *argv[])
@@ -367,16 +364,16 @@ void cmd_hand(struct game *game, int argc, char *argv[])
 		return;
 	}
 
-	for (i = 0; i < game->player.ncards; i++)
-		printf("%c", game->player.cards[i]);
+	// for (i = 0; i < game->player.ncards; i++)
+	// 	printf("%c", game->player.cards[i]);
 
 	value = hand_value(&game->player);
-	printf(" %d\n", hand_value(&game->player));
+	//printf(" %d\n", hand_value(&game->player));
 }
 
 void cmd_logout(struct game *game, int argc, char *argv[])
 {
-	printf("+OK Done\n");
+	//printf("+OK Done\n");
 	game_finish(game);
 	value = 0;
 }
@@ -515,9 +512,9 @@ int main(void)
 	// printf("%d\n", value);
 
 	int count = 0;
-	while(count != 10){
+	int hit = 0;
 
-		printf("%d)Current value is %d\n",count, value);
+	while(count != 10){
 
 		if(value == -1){
 			//check value
@@ -546,9 +543,11 @@ int main(void)
 			argv[1] = "1";
 			command(&game, 1, argv);
 			count++;
+			hit++;
 			continue;
 		}
 		else if(value == 21){
+			printf("%d)Current value is %d\n",count, value);
 			//STAND money
 			printf("WIN!!!!!");
 			argv[0] = "STAND";
@@ -556,6 +555,7 @@ int main(void)
 			command(&game, 1, argv);
 			value = 0;
 			count++;
+			hit = 0;
 			continue;
 		}
 		else{
@@ -565,6 +565,7 @@ int main(void)
 			command(&game, 1, argv);
 			value = 0;
 			count++;
+			hit = 0;
 			continue;
 		}
 
