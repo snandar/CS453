@@ -514,31 +514,40 @@ int main(void)
 
 	int count = 0;
 	while(count < 2){
-		//HIT
-		argv[0] = "HIT";
-		command(&game, 1, argv);
-		// printf("%d\n", value);
 
-		//check value
-		argv[0] = "HAND";
-		command(&game, 1, argv);
-		// printf("%d\n", value);
+		printf("%d)Current value is %d\n",count, value);
 
-		//HIT
-		argv[0] = "HIT";
-		command(&game, 1, argv);
-		// printf("%d\n", value);
-
-		//check value
-		argv[0] = "HAND";
-		command(&game, 1, argv);
-		// printf("%d\n", value);
-
-		//BET money
-		argv[0] = "BET";
-		argv[1] = "1";
-		command(&game, 2, argv);
-
+		if(value == -1){
+			//check value
+			argv[0] = "HAND";
+			command(&game, 1, argv);
+			// printf("%d\n", value);
+		}
+		else if(value == 0){
+			//BET money
+			argv[0] = "BET";
+			argv[1] = "1";
+			command(&game, 2, argv);
+		}
+		else if(value > 0 && value <21){
+			//HIT
+			argv[0] = "HIT";
+			argv[1] = "1";
+			command(&game, 1, argv);
+		}
+		else if(value == 21){
+			//BET money
+			argv[0] = "STAND";
+			argv[1] = "1";
+			command(&game, 2, argv);
+		}
+		else{
+			//BET money
+			argv[0] = "BET";
+			argv[1] = "1";
+			command(&game, 2, argv);
+		}
+		
 		count++;
 	}
 
