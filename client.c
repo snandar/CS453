@@ -7,7 +7,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <errno.h>
-#include "fdutil.h"
+#include <time.h>
+#include <ctype.h>
 #include "deck.h"
 #include "misc.h"
 
@@ -364,8 +365,6 @@ void blackjack(char *line)
 	game.state = STATE_IDLE;
 
 	printf("+OK Welcome to the Blackjack server!\n");
-
-	char line[1024];
 
 	if ((cp = strrchr(line, '\n')))
 		*cp = 0;
