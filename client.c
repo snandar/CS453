@@ -505,35 +505,71 @@ int main(void)
 	argv[1] = "1";
 	command(&game, 2, argv);
 
+	// int count = 0;
+	// while (count < 3 )
+	// {
+	// 	//check value
+	// 	argv[0] = "HAND";
+	// 	command(&game, 1, argv);
+	// 	// printf("%d\n", value);
+
+	// 	if (value < 21)
+	// 	{
+	// 		argv[0] = "HIT";
+	// 		argv[1] = "1";
+	// 		command(&game, 1, argv);
+	// 	}
+	// 	else if (value == 21)
+	// 	{
+	// 		printf("WIN\n");
+	// 		money = 1000000;
+	// 	}
+	// 	else
+	// 	{ //value is > 21 //Already busted
+	// 		//BET money
+	// 		argv[0] = "BET";
+	// 		argv[1] = "1";
+	// 		command(&game, 2, argv);
+	// 	}
+
+	// 	count++;
+	// }
+
 	int count = 0;
-	while (count < 3 )
-	{
-		//check value
-		argv[0] = "HAND";
-		command(&game, 1, argv);
-		// printf("%d\n", value);
+    while (count < 3)
+    {
+        //check value
+        argv[0] = "HAND";
+        command(&game, 1, argv);
+        // printf("%d\n", value);
+        printf("HAND %d ", value);
 
-		if (value < 21)
-		{
-			argv[0] = "HIT";
-			argv[1] = "1";
-			command(&game, 1, argv);
-		}
-		else if (value == 21)
-		{
-			printf("WIN\n");
-			money = 1000000;
-		}
-		else
-		{ //value is > 21 //Already busted
-			//BET money
-			argv[0] = "BET";
-			argv[1] = "1";
-			command(&game, 2, argv);
-		}
-
-		count++;
-	}
+        if (value < 21)
+        {
+            argv[0] = "HIT";
+            argv[1] = "1";
+            command(&game, 1, argv);
+            printf("HIT\n");
+        }
+        else if (value == 21)
+        {
+            printf("WIN\n");
+            //BET money
+            argv[0] = "BET";
+            argv[1] = "1";
+            command(&game, 2, argv);
+        }
+        else
+        {   //value is > 21 //Already busted
+            //BET money
+            argv[0] = "BET";
+            argv[1] = "1";
+            command(&game, 2, argv);
+            printf("BET\n");
+        }
+        count++;
+        printf("%d",count);
+    }
 
 	return 0;
 }
