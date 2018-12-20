@@ -418,28 +418,6 @@ void cmd_balance(struct game *game, int argc, char *argv[])
 	nprintf("+OK %d\n", balance);
 }
 
-void cmd_flag(struct game *game, int argc, char *argv[])
-{
-	int balance = account_balance(game->user);
-
-	if (balance >= 1000000)
-		nprintf("+OK %s\n", account_flag());
-	else
-		nprintf("-ERR You need to become a millionaire to see the flag!\n");
-}
-
-void cmd_logout(struct game *game, int argc, char *argv[])
-{
-	if (game && game->state == STATE_PLAYING)
-	{
-		account_update(game->user, -game->bet);
-		nprintf("+OK Your bet was forfeit. Please come back soon!\n");
-	} else {
-		nprintf("+OK Come back soon!\n");
-	}
-	exit(0);
-}
-
 struct command
 {
 	const char *cmd;
