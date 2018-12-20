@@ -539,7 +539,7 @@ int main(void)
         char cbalance[20];
         printf("balance : ");
         scanf(" %c", &cbalance);
-	balance = atoi(pid);
+	balance = atoi(cbalance);
         printf("Initial money: %d\n", balance);
 
         printf("+OK Local Blackjack server!\n");
