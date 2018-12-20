@@ -533,6 +533,11 @@ int main(void)
 			argv[1] = "1";
 			command(&game, 2, argv);
 			count++;
+
+			//check value
+			argv[0] = "HAND";
+			command(&game, 1, argv);
+			// printf("%d\n", value);
 			continue;
 		}
 		else if(value > 0 && value <21){
