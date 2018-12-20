@@ -557,6 +557,5 @@ int main(void)
 		return 1;
 	printf("buf = %s\n", buf);
 
-	
         return 0;
 }
