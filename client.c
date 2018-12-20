@@ -160,6 +160,8 @@ int main(void)
 		fgets(cinput, 2, stdin);
 		input = atoi(cinput);
 
+		sleep(2);
+
 		switch (input)
 		{
 			case 0:
