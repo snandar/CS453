@@ -375,7 +375,7 @@ void cmd_hand(struct game *game, int argc, char *argv[])
 
 void cmd_logout(struct game *game, int argc, char *argv[])
 {
-	nprintf("+OK Done\n");
+	printf("+OK Done\n");
 	game_finish(game);
 }
 
