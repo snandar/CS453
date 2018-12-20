@@ -5,10 +5,8 @@
 #include <unistd.h>
 #include <time.h>
 #include <ctype.h>
-#include "fdutil.h"
 #include "deck.h"
 #include "misc.h"
-#include "account.h"
 
 time_t boot;
 
@@ -101,9 +99,6 @@ void game_finish(struct game *game)
         {
                 result = "PUSH";
         }
-
-        nprintf("+OK %s HAND %s %d", result, hand_string(&game->player), player);
-        nprintf(" DEALER %s %d\n", hand_string(&game->dealer), dealer);
 
         game->state = STATE_IDLE;
         game->bet = 0;
