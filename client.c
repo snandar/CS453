@@ -498,7 +498,7 @@ int main(void)
 		argv[0] = "HAND";
 		command(&game, 1, argv);
 
-
+		printf("%d\n", value);
 
 	return 0;
 }
