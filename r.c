@@ -490,5 +490,160 @@ int main(void)
 
         printf("epoch = %d\n", epoch);
 
+
+        //CPY from main Blackjack;
+	char *cp;
+	pid_t pid;
+	int argc;
+	char *argv[MAXARGS];
+	struct game game;
+
+        //Get Pid
+	char cpid[5];
+	int pid;
+        printf("pid : ");
+        scanf(" %c", &cpid);
+	pid = atoi(pid);
+
+        srand(boot ^ pid);
+	game.user = "acidburn";
+	game.state = STATE_IDLE;
+
+        //Get initial balance
+        char cbalance[20];
+        printf("balance : ");
+        scanf(" %c", &cbalance);
+	balance = atoi(pid);
+        printf("Initial money: %d\n", balance);
+
+        printf("+OK Local Blackjack server!\n");
+
+        //Start of simulator + actual
+
+	//BET money
+	argv[0] = "BET";
+	argv[1] = "1";
+	command(&game, 2, argv);
+
+	//check value
+	argv[0] = "HAND";
+	command(&game, 1, argv);
+	// printf("%d\n", value);
+
+	int count = 0;
+	int win = 0;
+
+	// while(money < 20000){
+	while(1){
+		printf("\n %d", value);
+		if(value == -1){
+			//check value
+			argv[0] = "HAND";
+			command(&game, 1, argv);
+			// printf("%d\n", value);
+			count++;
+			continue;
+		}
+		else if(value == 0){
+
+			if(win == 1){
+				printf(" win\n");
+				printf("%d hits\n", hit);
+
+				/* BET 10000 */
+				nprintf(fd, "BET 2\n");
+				if (!readline(fd, buf, sizeof(buf)))
+					return 1;
+				printf("buf = %s\n", buf);
+
+				for(int i =0 ;i<hit; i++){
+					/* BET 10000 */
+					nprintf(fd, "HIT\n");
+					if (!readline(fd, buf, sizeof(buf)))
+						return 1;
+					printf("buf = %s\n", buf);
+				}
+
+				/*Stand*/
+				nprintf(fd, "STAND\n");
+				if (!readline(fd, buf, sizeof(buf)))
+					return 1;
+				printf("buf = %s\n", buf);
+
+				win = 0;
+				hit = 0;
+				money += 2;
+				count ++;
+				break;
+			}
+			else{
+				printf(" lose");
+
+				/* BET 1 */
+				nprintf(fd, "BET 1\n");
+				if (!readline(fd, buf, sizeof(buf)))
+					return 1;
+				printf("buf = %s\n", buf);
+
+				/*Stand*/
+				nprintf(fd, "STAND\n");
+				if (!readline(fd, buf, sizeof(buf)))
+					return 1;
+				printf("buf = %s\n", buf);				
+
+				money -= 1;
+			}
+
+			printf("\n======================");
+
+			//BET money
+			argv[0] = "BET";
+			argv[1] = "1";
+			command(&game, 2, argv);
+			count++;
+
+			//check value
+			argv[0] = "HAND";
+			command(&game, 1, argv);
+			// printf("%d\n", value);
+			continue;
+		}
+		else if(value > 0 && value <21){
+			//HIT
+			argv[0] = "HIT";
+			argv[1] = "1";
+			command(&game, 1, argv);
+			count++;
+			continue;
+		}
+		else if(value == 21){
+			//STAND money
+			win = 1;
+			argv[0] = "STAND";
+			argv[1] = "1";
+			command(&game, 1, argv);
+			value = 0;
+			count++;
+			continue;
+		}
+		else{
+			//exit
+			argv[0] = "EXIT";
+			argv[1] = "1";
+			command(&game, 1, argv);
+			value = 0;
+			count++;
+			hit = 0;
+			continue;
+		}
+
+	}
+
+	/* Check status */
+	nprintf(fd, "STATUS\n");
+	if (!readline(fd, buf, sizeof(buf)))
+		return 1;
+	printf("buf = %s\n", buf);
+	
         return 0;
 }

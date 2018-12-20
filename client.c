@@ -484,7 +484,7 @@ int main(void)
 	printf("Initial money: %s", cmoney);
 	fflush(stdin);
 
-	pid = 5;
+	// pid = 5;
 
 	//Starting local blackjack
 	char *cp;
