@@ -336,9 +336,9 @@ void cmd_logout(struct game *game, int argc, char *argv[])
 	if (game && game->state == STATE_PLAYING)
 	{
 		account_update(-game->bet);
-		nprintf("+OK Your bet was forfeit. Please come back soon!\n");
+		printf("+OK Your bet was forfeit. Please come back soon!\n");
 	} else {
-		nprintf("+OK Come back soon!\n");
+		printf("+OK Come back soon!\n");
 	}
 	exit(0);
 }
