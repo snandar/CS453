@@ -91,6 +91,37 @@ int readline(int fd, char *buf, size_t maxlen)
 	return 1;
 }
 
+//Copied from Blackjack
+void blackjack(char *line)
+{
+        char *cp;
+        pid_t pid;
+        int argc;
+        char *argv[MAXARGS];
+        struct game game;
+
+        boot = time(NULL);
+        pid = getpid();
+
+        srand(boot ^ pid);
+
+        game.user = "acidburn";
+        game.state = STATE_IDLE;
+
+        nprintf("+OK Welcome to the Blackjack server!\n");
+
+        char line[1024];
+
+				if ((cp = strrchr(line, '\n')))
+								*cp = 0;
+
+				argc = split(line, argv, MAXARGS);
+
+        command(&game, argc, argv);
+
+
+}
+
 //Main function
 int main(void)
 {
