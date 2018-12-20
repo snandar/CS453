@@ -13,6 +13,7 @@
 
 time_t boot;
 #define MAXARGS 32
+#define DECK_SIZE	52
 
 struct hand
 {
