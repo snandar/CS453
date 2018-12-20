@@ -17,6 +17,7 @@ time_t boot;
 static const char CARDS[] = "A23456789TJQK";
 int pid;
 int doneround = -1;
+int value = -1;
 
 struct hand
 {
@@ -362,8 +363,9 @@ void cmd_hand(struct game *game, int argc, char *argv[])
         }
 
         for (i = 0; i < game->player.ncards; i++)
-                printf("%c", game->player.cards[i]);
+            printf("%c", game->player.cards[i]);
 
+		value = hand_value(&game->player);
         printf(" %d\n", hand_value(&game->player));
 }
 
@@ -495,6 +497,7 @@ int main(void)
 
 		argv[0] = "HAND";
 		command(&game, 1, argv);
+
 
 
 	return 0;
