@@ -9,6 +9,7 @@
 #include <errno.h>
 #include <time.h>
 #include <ctype.h>
+#include "fdutil.h"
 #include "deck.h"
 #include "misc.h"
 
@@ -178,12 +179,10 @@ void game_finish(struct game *game)
         if (dealer > 21 || dealer < player)
         {
                 result = "WIN";
-                account_update(game->user, game->bet);
         }
         else if (dealer > player)
         {
                 result = "LOSE";
-                account_update(game->user, -game->bet);
         }
         else
         {
