@@ -408,9 +408,9 @@ int blackj(char *line)
         if ((cp = strrchr(line, '\n')))
             *cp = 0;
 
-            printf("%s\n", line);
+			argc = split(line, argv, MAXARGS);
 
-            //command(&game, argc, argv);
+            command(&game, argc, argv);
         
 
         return 0;
