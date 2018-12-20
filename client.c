@@ -493,7 +493,8 @@ int main(void)
 		argv[1] = "1";
 		command(&game, 2, argv);
 
-		
+		argv[0] = "HAND";
+		command(&game, 1, argv);
 
 
 	return 0;
