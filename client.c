@@ -285,27 +285,6 @@ void cmd_hand(struct game *game, int argc, char *argv[])
 	printf(" %d\n", hand_value(&game->player));
 }
 
-void cmd_double(struct game *game, int argc, char *argv[])
-{
-	if (game->state != STATE_PLAYING)
-	{
-		printf("-ERR You are not playing a game\n");
-		return;
-	}
-
-	game->bet *= 2;
-
-	deck_deal(&game->deck, &game->player);
-
-	if (hand_value(&game->player) > 21)
-	{
-		printf("+OK BUST %s %d\n", hand_string(&game->player), hand_value(&game->player));
-		game->state = STATE_IDLE;
-		return;
-	}
-
-	game_finish(game);
-}
 
 void cmd_faceup(struct game *game, int argc, char *argv[])
 {
@@ -339,10 +318,6 @@ static struct command commands[] =
 		{"STAND", 1, cmd_stand},
 		{"HAND", 1, cmd_hand},
 		{"FACEUP", 1, cmd_faceup},
-		{"DOUBLE", 1, cmd_double},
-		{"STATUS", 1, cmd_status},
-		{"EXIT", 1, cmd_logout},
-		{"QUIT", 1, cmd_logout},
 		{NULL, 0, NULL}};
 
 void command(struct game *game, int argc, char *argv[])
