@@ -153,12 +153,15 @@ int main(void)
 	while (ok == 1)
 	{
 		printf("\n");
-		printf("BET 0=1, 1=1000, 2=10,000, 3 = 20,000, 4 = 50,000");
-		printf("5 HIT");
-		printf("6 STAND");
+		printf("BET 0=1 1=1000, 2=10,000, 3 = 20,000, 4 = 50,000");
+		printf(" 5 HIT");
+		printf(" 6 STAND\n");
+
+		
+		printf("Choose an option: ");
 		fgets(cinput, 2, stdin);
 		input = atoi(cinput);
-		
+
 		switch (input)
 		{
 
@@ -198,6 +201,7 @@ int main(void)
 				return 1;
 			break; /* optional */
 		}
+
 		printf("buf = %s\n", buf);
 	}
 
