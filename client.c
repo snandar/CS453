@@ -585,5 +585,7 @@ int main(void)
 
 	}
 
+	printf("money %d", money);
+
 	return 0;
 }
