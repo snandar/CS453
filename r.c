@@ -528,7 +528,7 @@ int main(void)
         //Get Pid
 	char cpid[5];
         printf("pid : ");
-        scanf(" %c", &cpid);
+        scanf(" %s", &cpid);
 	pid = (int) strtol(cpid, (char **)NULL, 5);
         printf("pid : %d", pid);
 
