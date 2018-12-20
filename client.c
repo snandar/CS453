@@ -505,8 +505,8 @@ int main(void)
 	argv[1] = "1";
 	command(&game, 2, argv);
 
-	while (money < 1000000)
-	{
+	//while (money < 1000000)
+	//{
 		//check value
 		argv[0] = "HAND";
 		command(&game, 1, argv);
@@ -520,10 +520,8 @@ int main(void)
 		}
 		else if (value == 21)
 		{
-
 			printf("WIN\n");
 			money = 1000000;
-
 		}
 		else
 		{ //value is > 21 //Already busted
@@ -533,7 +531,7 @@ int main(void)
 			command(&game, 2, argv);
 		}
 
-	}
+	//}
 
 	return 0;
 }
