@@ -333,6 +333,35 @@ void cmd_hit(struct game *game, int argc, char *argv[])
         printf("+OK GOT %s %d\n", hand_string(&game->player), hand_value(&game->player));
 }
 
+void cmd_stand(struct game *game, int argc, char *argv[])
+{
+        if (game->state != STATE_PLAYING)
+        {
+                printf("-ERR You are not playing a game\n");
+                return;
+        }
+
+        while (hand_value(&game->dealer) < 17)
+                deck_deal(&game->deck, &game->dealer);
+
+        game_finish(game);
+}
+
+struct command
+{
+        const char *cmd;
+        int args;
+        void (*fn)(struct game *game, int argc, char *argv[]);
+};
+
+static struct command commands[] =
+{
+        { "BET",     2, cmd_bet },
+        { "HIT",     1, cmd_hit },
+        { "STAND",   1, cmd_stand },
+        { NULL, 0, NULL }
+};
+
 //Main function
 int main(void)
 {
