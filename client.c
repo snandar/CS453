@@ -9,7 +9,6 @@
 #include <errno.h>
 #include <time.h>
 #include <ctype.h>
-#include "misc.h"
 
 time_t boot;
 #define MAXARGS 32
