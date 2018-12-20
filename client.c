@@ -15,6 +15,7 @@ time_t boot;
 #define MAXARGS 32
 #define DECK_SIZE	52
 static const char CARDS[] = "A23456789TJQK";
+int pid;
 
 struct hand
 {
@@ -362,6 +363,59 @@ static struct command commands[] =
         { NULL, 0, NULL }
 };
 
+void command(struct game *game, int argc, char *argv[])
+{
+        struct command *c = commands;
+
+        while (c->cmd != NULL)
+        {
+                if (!strcasecmp(c->cmd, argv[0]))
+                        break;
+
+                c++;
+        }
+
+        if (c->cmd == NULL)
+        {
+                printf("-ERR Unknown command\n");
+                return;
+        }
+
+        if (argc < c->args)
+        {
+                printf("-ERR Not enough arguments\n");
+                return;
+        }
+
+        c->fn(game, argc, argv);
+}
+
+int blackj(char *line)
+{
+        char *cp;
+        pid_t pid;
+        int argc;
+        char *argv[MAXARGS];
+        struct game game;
+
+        srand(boot ^ pid);
+
+        game.user = "acidburn";
+        game.state = STATE_IDLE;
+
+        printf("+OK Welcome to the Blackjack server!\n");
+
+                if ((cp = strrchr(line, '\n')))
+                        *cp = 0;
+
+                argc = split(line, argv, MAXARGS);
+
+                command(&game, argc, argv);
+        
+
+        return 0;
+}
+
 //Main function
 int main(void)
 {
@@ -410,11 +464,12 @@ int main(void)
 		return 1;
 
 	printf("epoch = %d\n", epoch);
+	boot = epoch;
 
 	printf("hello. What is the pid? ");
 	fgets(cpid, 5, stdin);
 	printf("You put %s\n", cpid);
-	int pid = atoi(cpid);
+	pid = atoi(cpid);
 	fflush(stdin);
 
 	char *cmoney;
