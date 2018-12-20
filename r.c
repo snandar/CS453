@@ -551,13 +551,8 @@ int main(void)
 	argv[1] = "1";
 	command(&game, 2, argv);
 
-	//check value
-	argv[0] = "HAND";
-	command(&game, 1, argv);
-	// printf("%d\n", value);
-
         //Try betting
-        nprintf(fd, "BET 2\n");
+        nprintf(fd, "BET 1\n");
         if (!readline(fd, buf, sizeof(buf)))
 		return 1;
 	printf("buf = %s\n", buf);
