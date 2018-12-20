@@ -471,17 +471,17 @@ int main(void)
 	printf("epoch = %d\n", epoch);
 	boot = epoch;
 
-	// printf("hello. What is the pid? ");
-	// fgets(cpid, 5, stdin);
-	// printf("You put %s\n", cpid);
-	// pid = atoi(cpid);
-	// fflush(stdin);
+	printf("hello. What is the pid? ");
+	fgets(cpid, 5, stdin);
+	printf("You put %s\n", cpid);
+	pid = atoi(cpid);
+	fflush(stdin);
 
-	// char *cmoney;
-	// printf("How much u have? ");
-	// fgets(cmoney, sizeof(cmoney), stdin);
-	// printf("Initial money: %s", cmoney);
-	// fflush(stdin);
+	char *cmoney;
+	printf("How much u have? ");
+	fgets(cmoney, sizeof(cmoney), stdin);
+	printf("Initial money: %s", cmoney);
+	fflush(stdin);
 
 	pid = 5;
 
@@ -499,7 +499,7 @@ int main(void)
 
 	printf("+OK Local BlackJack open\n");
 
-	//int money = atoi(cmoney);
+	int money = atoi(cmoney);
 
 	//BET money
 	argv[0] = "BET";
@@ -516,7 +516,7 @@ int main(void)
 	int win = 0;
 
 	while(count != 10){
-		printf("\n%d) %d",count, value);
+		printf("\n %d", value);
 		if(value == -1){
 			//check value
 			argv[0] = "HAND";
@@ -536,7 +536,7 @@ int main(void)
 				printf(" lose");
 			}
 
-			printf("======================");
+			printf("\n======================");
 
 			//BET money
 			argv[0] = "BET";
