@@ -527,7 +527,9 @@ int main(void)
 		else
 		{ //value is > 21 //Already busted
 			//BET money
-			count = 3;
+			argv[0] = "BET";
+			argv[1] = "1";
+			command(&game, 2, argv);
 		}
 
 		count++;
