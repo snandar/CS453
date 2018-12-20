@@ -17,6 +17,7 @@ time_t boot;
 static const char CARDS[] = "A23456789TJQK";
 int pid;
 int value = -1;
+int hit = 0;
 
 struct hand
 {
@@ -328,6 +329,7 @@ void cmd_hit(struct game *game, int argc, char *argv[])
 
 	deck_deal(&game->deck, &game->player);
 	printf(" hit\n");
+	hit += 1;
 	value = hand_value(&game->player);
 	if (hand_value(&game->player) > 21)
 	{
@@ -512,7 +514,6 @@ int main(void)
 	// printf("%d\n", value);
 
 	int count = 0;
-	int hit = 0;
 	int win = 0;
 
 	while(count != 10){
@@ -553,7 +554,6 @@ int main(void)
 		}
 		else if(value > 0 && value <21){
 			//HIT
-			hit++;
 			argv[0] = "HIT";
 			argv[1] = "1";
 			command(&game, 1, argv);
@@ -568,7 +568,6 @@ int main(void)
 			command(&game, 1, argv);
 			value = 0;
 			count++;
-			hit = 0;
 			continue;
 		}
 		else{
