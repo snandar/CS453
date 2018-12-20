@@ -510,5 +510,16 @@ int main(void)
 	command(&game, 1, argv);
 	// printf("%d\n", value);
 
+	//check value
+	argv[0] = "HAND";
+	command(&game, 1, argv);
+	// printf("%d\n", value);
+
+	//HIT
+	argv[0] = "HIT";
+	command(&game, 1, argv);
+	// printf("%d\n", value);
+
+
 	return 0;
 }
