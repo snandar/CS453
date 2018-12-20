@@ -327,7 +327,7 @@ void cmd_hit(struct game *game, int argc, char *argv[])
 	}
 
 	deck_deal(&game->deck, &game->player);
-	printf("hit\n");
+	printf(" hit\n");
 	value = hand_value(&game->player);
 	if (hand_value(&game->player) > 21)
 	{
@@ -516,7 +516,7 @@ int main(void)
 	int win = 0;
 
 	while(count != 10){
-		printf("\n%d)Current value is %d",count, value);
+		printf("\n%d) %d",count, value);
 		if(value == -1){
 			//check value
 			argv[0] = "HAND";
@@ -535,6 +535,8 @@ int main(void)
 			else{
 				printf(" lose");
 			}
+
+			printf("======================");
 
 			//BET money
 			argv[0] = "BET";
