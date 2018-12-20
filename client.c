@@ -378,6 +378,7 @@ void cmd_logout(struct game *game, int argc, char *argv[])
 {
 	printf("+OK Done\n");
 	game_finish(game);
+	value = 0;
 }
 
 struct command
@@ -523,18 +524,21 @@ int main(void)
 			argv[0] = "HAND";
 			command(&game, 1, argv);
 			// printf("%d\n", value);
+			break;
 		}
 		else if(value == 0){
 			//BET money
 			argv[0] = "BET";
 			argv[1] = "1";
 			command(&game, 2, argv);
+			break;
 		}
 		else if(value > 0 && value <21){
 			//HIT
 			argv[0] = "HIT";
 			argv[1] = "1";
 			command(&game, 1, argv);
+			break;
 		}
 		else if(value == 21){
 			//STAND money
@@ -542,8 +546,8 @@ int main(void)
 			argv[0] = "STAND";
 			argv[1] = "1";
 			command(&game, 1, argv);
-			
 			value = 0;
+			break;
 		}
 		else{
 			//exit
@@ -551,6 +555,7 @@ int main(void)
 			argv[1] = "1";
 			command(&game, 1, argv);
 			value = 0;
+			break;
 		}
 
 		count++;
