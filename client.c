@@ -472,17 +472,19 @@ int main(void)
 	printf("epoch = %d\n", epoch);
 	boot = epoch;
 
-	printf("hello. What is the pid? ");
-	fgets(cpid, 5, stdin);
-	printf("You put %s\n", cpid);
-	pid = atoi(cpid);
-	fflush(stdin);
+	// printf("hello. What is the pid? ");
+	// fgets(cpid, 5, stdin);
+	// printf("You put %s\n", cpid);
+	// pid = atoi(cpid);
+	// fflush(stdin);
 
-	char *cmoney;
-	printf("How much u have? ");
-	fgets(cmoney, sizeof(cmoney), stdin);
-	printf("Initial money: %s", cmoney);
-	fflush(stdin);
+	// char *cmoney;
+	// printf("How much u have? ");
+	// fgets(cmoney, sizeof(cmoney), stdin);
+	// printf("Initial money: %s", cmoney);
+	// fflush(stdin);
+
+	pid = 5;
 
 	//Starting local blackjack
 	char *cp;
