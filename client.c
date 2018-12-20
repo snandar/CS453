@@ -478,5 +478,9 @@ int main(void)
 	printf("Initial money: %s", cmoney);
 	fflush(stdin);
 
+	char* incommand = "BET 100";
+
+	blackj(incommand);
+
 	return 0;
 }
