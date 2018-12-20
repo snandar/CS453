@@ -514,7 +514,7 @@ int main(void)
 	// printf("%d\n", value);
 
 	int count = 0;
-	while(count == 0){
+	while(count != 10){
 
 		printf("%d)Current value is %d\n",count, value);
 
@@ -548,8 +548,9 @@ int main(void)
 			argv[0] = "EXIT";
 			argv[1] = "1";
 			command(&game, 1, argv);
-			value = 0;
 		}
+
+		count++;
 
 	}
 
