@@ -464,7 +464,6 @@ int main(void)
 	nprintf(fd, "STATUS\n");
 	if (!readline(fd, buf, sizeof(buf)))
 		return 1;
-
 	printf("buf = %s\n", buf);
 
 	if (sscanf(buf, "+OK Started at %d", &epoch) != 1)
@@ -531,12 +530,46 @@ int main(void)
 			if(win == 1){
 				printf(" win\n");
 				printf("%d hits\n", hit);
+
+				/* BET 10000 */
+				nprintf(fd, "BET 2\n");
+				if (!readline(fd, buf, sizeof(buf)))
+					return 1;
+				printf("buf = %s\n", buf);
+
+				for(int i =0 ;i<hit; i++){
+					/* BET 10000 */
+					nprintf(fd, "HIT\n");
+					if (!readline(fd, buf, sizeof(buf)))
+						return 1;
+					printf("buf = %s\n", buf);
+				}
+
+				/*Stand*/
+				nprintf(fd, "STAND\n");
+				if (!readline(fd, buf, sizeof(buf)))
+					return 1;
+				printf("buf = %s\n", buf);
+
 				win = 0;
 				hit = 0;
-				money += 10000;
+				money += 2;
 			}
 			else{
 				printf(" lose");
+
+				/* BET 1 */
+				nprintf(fd, "BET 1\n");
+				if (!readline(fd, buf, sizeof(buf)))
+					return 1;
+				printf("buf = %s\n", buf);
+
+				/*Stand*/
+				nprintf(fd, "STAND\n");
+				if (!readline(fd, buf, sizeof(buf)))
+					return 1;
+				printf("buf = %s\n", buf);				
+
 				money -= 1;
 			}
 
