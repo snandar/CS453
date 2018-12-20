@@ -524,6 +524,7 @@ int main(void)
 			argv[0] = "HAND";
 			command(&game, 1, argv);
 			// printf("%d\n", value);
+			count++;
 			continue;
 		}
 		else if(value == 0){
@@ -531,6 +532,7 @@ int main(void)
 			argv[0] = "BET";
 			argv[1] = "1";
 			command(&game, 2, argv);
+			count++;
 			continue;
 		}
 		else if(value > 0 && value <21){
@@ -538,6 +540,7 @@ int main(void)
 			argv[0] = "HIT";
 			argv[1] = "1";
 			command(&game, 1, argv);
+			count++;
 			continue;
 		}
 		else if(value == 21){
@@ -547,6 +550,7 @@ int main(void)
 			argv[1] = "1";
 			command(&game, 1, argv);
 			value = 0;
+			count++;
 			continue;
 		}
 		else{
@@ -555,10 +559,9 @@ int main(void)
 			argv[1] = "1";
 			command(&game, 1, argv);
 			value = 0;
+			count++;
 			continue;
 		}
-
-		count++;
 
 	}
 
