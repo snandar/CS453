@@ -312,6 +312,27 @@ void cmd_bet(struct game *game, int argc, char *argv[])
         printf("+OK BET %d HAND %s %d FACEUP %c %d\n", game->bet, hand_string(&game->player), hand_value(&game->player), faceup, card_value(faceup));
 }
 
+void cmd_hit(struct game *game, int argc, char *argv[])
+{
+        if (game->state != STATE_PLAYING)
+        {
+                printf("-ERR You are not playing a game\n");
+                return;
+        }
+
+        deck_deal(&game->deck, &game->player);
+
+        if (hand_value(&game->player) > 21)
+        {
+                printf("+OK BUST %s %d", hand_string(&game->player), hand_value(&game->player));
+                printf(" DEALER %s %d\n", hand_string(&game->dealer), hand_value(&game->dealer));
+                game->state = STATE_IDLE;
+                return;
+        }
+
+        printf("+OK GOT %s %d\n", hand_string(&game->player), hand_value(&game->player));
+}
+
 //Main function
 int main(void)
 {
