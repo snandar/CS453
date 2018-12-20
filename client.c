@@ -522,7 +522,7 @@ int main(void)
 		else if (value == 21)
 		{
 			printf("WIN\n");
-			money = 1000000;
+			count = 3;
 		}
 		else
 		{ //value is > 21 //Already busted
