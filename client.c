@@ -145,7 +145,9 @@ int main(void)
 	nprintf(fd, "BET 1\n");
 	if (!readline(fd, buf, sizeof(buf)))
 		return 1;
-    
+    printf("buf = %s\n", buf);
+
+
 	return 0;
 }
 
