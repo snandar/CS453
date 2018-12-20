@@ -153,7 +153,8 @@ int main(void)
 	printf("\n");
 	printf("BET 0=1 1=1000, 2=10,000, 3 = 20,000, 4 = 50,000");
 	printf(" 5 HIT");
-	printf(" 6 STAND\n");
+	printf(" 6 STAND");
+	printf(" 7 FLAG\n");
 	printf("Choose an option: ");
 	/* Try */
 	while (ok == 1)
@@ -199,19 +200,16 @@ int main(void)
 				return 1;
 			break; /* optional */
 		case 7:
-			nprintf(fd, "FLAG\n");
-			if (!readline(fd, buf, sizeof(buf)))
-				return 1;
+			ok = 0;
 			break; /* optional */
-		default:
-			nprintf(fd, "STATUS\n");
-			if (!readline(fd, buf, sizeof(buf)))
-				return 1;
-			break; /* optional */
+			printf("%s\n", buf);
 		}
 
+		/* Check FLAG */
+		nprintf(fd, "FLAG\n");
+		if (!readline(fd, buf, sizeof(buf)))
+			return 1;
 		printf("buf = %s\n", buf);
+		
+		return 0;
 	}
-
-	return 0;
-}
