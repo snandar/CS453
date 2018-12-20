@@ -514,7 +514,7 @@ int main(void)
 	// printf("%d\n", value);
 
 	int count = 0;
-	while(count < 2){
+	while(count == 0){
 
 		printf("%d)Current value is %d\n",count, value);
 
@@ -541,6 +541,8 @@ int main(void)
 			argv[0] = "STAND";
 			argv[1] = "1";
 			command(&game, 2, argv);
+
+			count == 1;
 		}
 		else{
 			//BET money
@@ -548,8 +550,7 @@ int main(void)
 			argv[1] = "1";
 			command(&game, 2, argv);
 		}
-		
-		count++;
+
 	}
 
 	return 0;
