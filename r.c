@@ -532,7 +532,7 @@ int main(void)
 	pid = atoi(cpid);
         printf("pid : %d\n", pid);
 
-        //srand(boot ^ pid);
+        srand(boot ^ pid);
 	game.user = "acidburn";
 	game.state = STATE_IDLE;
 
