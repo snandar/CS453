@@ -540,15 +540,15 @@ int main(void)
 			//BET money
 			argv[0] = "STAND";
 			argv[1] = "1";
-			command(&game, 2, argv);
-
+			command(&game, 1, argv);
 			count == 1;
 		}
 		else{
-			//BET money
-			argv[0] = "BET";
+			//exit
+			argv[0] = "EXIT";
 			argv[1] = "1";
-			command(&game, 2, argv);
+			command(&game, 1, argv);
+			value = 0;
 		}
 
 	}
