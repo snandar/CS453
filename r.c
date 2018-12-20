@@ -11,6 +11,20 @@
 #include <ctype.h>
 #include <stdlib.h>
 
+int balance = 0;
+
+//COPY from ACCOUNT.c
+
+int account_balance(void)
+{
+        return balance;
+}
+
+int account_update(int num){
+        balance = balance + num;
+        return balance;
+}
+
 //COPY FROM DECK.C
 #define DECK_SIZE	52
 
@@ -103,7 +117,7 @@ char *hand_string(struct hand *h)
 }
 
 //COPY FROM BJ.c
-int balance = 0;
+
 time_t boot;
 
 #define MAXARGS 32
@@ -184,12 +198,12 @@ void game_finish(struct game *game)
 	if (dealer > 21 || dealer < player)
 	{
 		result = "WIN";
-		//account_update(game->user, game->bet);
+		account_update(game->bet);
 	}
 	else if (dealer > player)
 	{
 		result = "LOSE";
-		//account_update(game->user, -game->bet);
+		account_update(-game->bet);
 	}
 	else
 	{
@@ -275,7 +289,7 @@ void cmd_hit(struct game *game, int argc, char *argv[])
 
 	if (hand_value(&game->player) > 21)
 	{
-		//account_update(game->user, -game->bet);
+		account_update(-game->bet);
 		printf("+OK BUST %s %d", hand_string(&game->player), hand_value(&game->player));
 		printf(" DEALER %s %d\n", hand_string(&game->dealer), hand_value(&game->dealer));
 		game->state = STATE_IDLE;
@@ -284,6 +298,69 @@ void cmd_hit(struct game *game, int argc, char *argv[])
 
 	printf("+OK GOT %s %d\n", hand_string(&game->player), hand_value(&game->player));
 }
+
+void cmd_stand(struct game *game, int argc, char *argv[])
+{
+	if (game->state != STATE_PLAYING)
+	{
+		printf("-ERR You are not playing a game\n");
+		return;
+	}
+
+	while (hand_value(&game->dealer) < 17)
+		deck_deal(&game->deck, &game->dealer);
+
+	game_finish(game);
+}
+
+void cmd_hand(struct game *game, int argc, char *argv[])
+{
+	int i;
+
+	if (game->state != STATE_PLAYING)
+	{
+		printf("-ERR You are not playing a game\n");
+		return;
+	}
+
+	printf("+OK ");
+
+	for (i = 0; i < game->player.ncards; i++)
+		printf("%c", game->player.cards[i]);
+
+	printf(" %d\n", hand_value(&game->player));
+}
+
+void cmd_logout(struct game *game, int argc, char *argv[])
+{
+	if (game && game->state == STATE_PLAYING)
+	{
+		account_update(-game->bet);
+		nprintf("+OK Your bet was forfeit. Please come back soon!\n");
+	} else {
+		nprintf("+OK Come back soon!\n");
+	}
+	exit(0);
+}
+
+struct command
+{
+	const char *cmd;
+	int args;
+	void (*fn)(struct game *game, int argc, char *argv[]);
+};
+
+static struct command commands[] =
+{
+	{ "BET",     2, cmd_bet },
+	{ "HIT",     1, cmd_hit },
+	{ "STAND",   1, cmd_stand },
+	{ "HAND",    1, cmd_hand },
+	{ "LOGOUT",  1, cmd_logout },
+	{ "EXIT",    1, cmd_logout },
+	{ "QUIT",    1, cmd_logout },
+	{ NULL, 0, NULL }
+};
 
 //Client.c
 
