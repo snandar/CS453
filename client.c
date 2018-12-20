@@ -198,6 +198,11 @@ int main(void)
 			if (!readline(fd, buf, sizeof(buf)))
 				return 1;
 			break; /* optional */
+		case 7:
+			nprintf(fd, "FLAG\n");
+			if (!readline(fd, buf, sizeof(buf)))
+				return 1;
+			break; /* optional */
 		default:
 			nprintf(fd, "STATUS\n");
 			if (!readline(fd, buf, sizeof(buf)))
