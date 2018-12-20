@@ -476,7 +476,7 @@ int main(void)
 		argv[1] = "1";
 		command(&game, 2, argv);
 
-		printf(" %d\n", hand_value(&game->player));
+		printf(" %d\n", hand_value(game->player));
 
 
 	return 0;
