@@ -529,7 +529,7 @@ int main(void)
 	char cpid[5];
         printf("pid : ");
         scanf(" %c", &cpid);
-	pid = atoi(cpid);
+	pid = (int) strtol(cpid, (char **)NULL, 5);
         printf("pid : %d", pid);
 
         srand(boot ^ pid);
