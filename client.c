@@ -158,9 +158,8 @@ int main(void)
 	/* Try */
 	while (ok == 1)
 	{
-		fgets(cinput, 2, stdin);
+		scanf(" %c", &cinput);
 		input = atoi(cinput);
-		fflush(stdin);
 
 		switch (input)
 		{
