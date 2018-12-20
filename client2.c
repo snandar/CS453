@@ -146,11 +146,70 @@ int main(void)
 	int pid = atoi(cpid);
 	fflush(stdin);
 
-	char *cmoney;
-	printf("How much u have? ");
-	fgets(cmoney, sizeof(cmoney), stdin);
-	printf("Initial money: %s", cmoney);
-	fflush(stdin);
+	int ok = 1;
+	char cinput[2];
+	int input;
+
+	printf("\n");
+	printf("BET 0=1 1=1000, 2=10,000, 3 = 20,000, 4 = 50,000");
+	printf(" 5 HIT");
+	printf(" 6 STAND");
+	printf(" 7 FLAG\n");
+	printf("Choose an option: ");
+	/* Try */
+	while (ok == 1)
+	{
+		scanf(" %c", &cinput);
+		input = atoi(cinput);
+
+		switch (input)
+		{
+		case 0:
+			nprintf(fd, "BET 1\n");
+			if (!readline(fd, buf, sizeof(buf)))
+				return 1;
+			break; /* optional */
+		case 1:
+			nprintf(fd, "BET 1000\n");
+			if (!readline(fd, buf, sizeof(buf)))
+				return 1;
+			break; /* optional */
+		case 2:
+			nprintf(fd, "BET 10000\n");
+			if (!readline(fd, buf, sizeof(buf)))
+				return 1;
+			break; /* optional */
+		case 3:
+			nprintf(fd, "BET 20000\n");
+			if (!readline(fd, buf, sizeof(buf)))
+				return 1;
+			break; /* optional */
+		case 4:
+			nprintf(fd, "BET 50000\n");
+			if (!readline(fd, buf, sizeof(buf)))
+				return 1;
+			break; /* optional */
+		case 5:
+			nprintf(fd, "HIT\n");
+			if (!readline(fd, buf, sizeof(buf)))
+				return 1;
+			break; /* optional */
+		case 6:
+			nprintf(fd, "STAND\n");
+			if (!readline(fd, buf, sizeof(buf)))
+				return 1;
+			break; /* optional */
+		case 7:
+			ok = 0;
+			break; /* optional */
+			printf("%s\n", buf);
+		}
+
+		/* Check FLAG */
+		nprintf(fd, "FLAG\n");
+		if (!readline(fd, buf, sizeof(buf)))
+			return 1;
+		printf("buf = %s\n", buf);
 
 		return 0;
 	}
