@@ -337,7 +337,7 @@ void cmd_hit(struct game *game, int argc, char *argv[])
 		return;
 	}
 
-	//printf("+OK GOT %s %d\n", hand_string(&game->player), hand_value(&game->player));
+	printf("\n+OK GOT %s %d\n", hand_string(&game->player), hand_value(&game->player));
 }
 
 void cmd_stand(struct game *game, int argc, char *argv[])
@@ -513,9 +513,10 @@ int main(void)
 
 	int count = 0;
 	int hit = 0;
+	int win = 0;
 
 	while(count != 10){
-
+		printf("%d)Current value is %d",count, value);
 		if(value == -1){
 			//check value
 			argv[0] = "HAND";
@@ -525,6 +526,16 @@ int main(void)
 			continue;
 		}
 		else if(value == 0){
+
+			if(win == 1){
+				printf(" win");
+				printf("%d hits\n", hit);
+				win = 0;
+			}
+			else{
+				printf(" lose");
+			}
+
 			//BET money
 			argv[0] = "BET";
 			argv[1] = "1";
@@ -547,9 +558,8 @@ int main(void)
 			continue;
 		}
 		else if(value == 21){
-			printf("%d)Current value is %d\n",count, value);
 			//STAND money
-			printf("WIN!!!!!");
+			win = 1;
 			argv[0] = "STAND";
 			argv[1] = "1";
 			command(&game, 1, argv);
