@@ -144,6 +144,7 @@ int main(void)
 	fgets(cpid, 5, stdin);
 	printf("You put %s\n", cpid);
 	int pid = atoi(cpid);
+	fflush(stdin);
 
 	int ok = 1;
 	char cinput[2];
