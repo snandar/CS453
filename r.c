@@ -530,22 +530,22 @@ int main(void)
         printf("pid : ");
         scanf(" %s", &cpid);
 	pid = atoi(cpid);
-        printf("pid : %d", pid);
+        printf("pid : %d\n", pid);
 
         srand(boot ^ pid);
 	game.user = "acidburn";
 	game.state = STATE_IDLE;
 
-        // getchar();
-        //Get initial balance
+        // //Get initial balance
         // char cbalance[20];
         // printf("balance : ");
-        // scanf(" %c", &cbalance);
+        // scanf(" %s", &cbalance);
 	// balance = atoi(cbalance);
-        balance = 10000;
-        printf("Initial money: %d\n", balance);
+        // printf("Initial money: %d\n", balance);
 
         printf("+OK Local Blackjack server!\n");
+        printf("pid:\t%d\n", pid);
+        printf("epoch:\t%d\n", epoch);
 
         //Start of simulator + actual
 
