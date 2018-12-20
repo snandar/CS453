@@ -13,7 +13,7 @@
 
 time_t boot;
 #define MAXARGS 32
-#define DECK_SIZE	52
+#define DECK_SIZE 52
 static const char CARDS[] = "A23456789TJQK";
 int pid;
 int doneround = -1;
@@ -188,228 +188,238 @@ time_t boot;
 
 int card_value(char c)
 {
-        switch (c)
-        {
-                case 'A':
-                        return 1;
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                case '9':
-                        return c - '0';
-                case 'T':
-                case 'J':
-                case 'Q':
-                case 'K':
-                        return 10;
-        }
+	switch (c)
+	{
+	case 'A':
+		return 1;
+	case '2':
+	case '3':
+	case '4':
+	case '5':
+	case '6':
+	case '7':
+	case '8':
+	case '9':
+		return c - '0';
+	case 'T':
+	case 'J':
+	case 'Q':
+	case 'K':
+		return 10;
+	}
 
-        return 0;
+	return 0;
 }
 
 int hand_value(struct hand *h)
 {
-        int i;
-        int aces = 0;
-        int sum = 0;
+	int i;
+	int aces = 0;
+	int sum = 0;
 
-        for (i = 0; i < h->ncards; i++)
-        {
-                if (h->cards[i] == 'A')
-                        aces++;
-                else
-                        sum += card_value(h->cards[i]);
-        }
+	for (i = 0; i < h->ncards; i++)
+	{
+		if (h->cards[i] == 'A')
+			aces++;
+		else
+			sum += card_value(h->cards[i]);
+	}
 
-        if (aces == 0)
-                return sum;
+	if (aces == 0)
+		return sum;
 
-        /* Give 11 points for aces, unless it causes us to go bust, so treat those as 1 point */
-        while (aces && (sum + aces*11) > 21)
-        {
-                sum++;
-                aces--;
-        }
+	/* Give 11 points for aces, unless it causes us to go bust, so treat those as 1 point */
+	while (aces && (sum + aces * 11) > 21)
+	{
+		sum++;
+		aces--;
+	}
 
-        sum += 11 * aces;
+	sum += 11 * aces;
 
-        return sum;
+	return sum;
 }
 
-enum { STATE_IDLE, STATE_PLAYING };
+enum
+{
+	STATE_IDLE,
+	STATE_PLAYING
+};
 
 struct game
 {
-        struct deck deck;
-        struct hand player;
-        struct hand dealer;
-        int state;
-        char *user;
-        int bet;
+	struct deck deck;
+	struct hand player;
+	struct hand dealer;
+	int state;
+	char *user;
+	int bet;
 };
 
 void game_finish(struct game *game)
 {
-        char *result;
+	char *result;
 
-        int dealer = hand_value(&game->dealer);
-        int player = hand_value(&game->player);
+	int dealer = hand_value(&game->dealer);
+	int player = hand_value(&game->player);
 
-        if (dealer > 21 || dealer < player)
-        {
-                result = "WIN";
-        }
-        else if (dealer > player)
-        {
-                result = "LOSE";
-        }
-        else
-        {
-                result = "PUSH";
-        }
+	if (dealer > 21 || dealer < player)
+	{
+		result = "WIN";
+	}
+	else if (dealer > player)
+	{
+		result = "LOSE";
+	}
+	else
+	{
+		result = "PUSH";
+	}
 
-        printf("+OK %s HAND %s %d", result, hand_string(&game->player), player);
-        printf(" DEALER %s %d\n", hand_string(&game->dealer), dealer);
+	printf("+OK %s HAND %s %d", result, hand_string(&game->player), player);
+	printf(" DEALER %s %d\n", hand_string(&game->dealer), dealer);
 
-		doneround = 1;
+	doneround = 1;
 
-        game->state = STATE_IDLE;
-        game->bet = 0;
+	game->state = STATE_IDLE;
+	game->bet = 0;
 }
 
 void cmd_bet(struct game *game, int argc, char *argv[])
 {
-        if (game->state == STATE_PLAYING)
-        {
-                printf("-ERR You are already playing a game\n");
-                return;
-        }
+	if (game->state == STATE_PLAYING)
+	{
+		printf("-ERR You are already playing a game\n");
+		return;
+	}
 
-        if (strspn(argv[1], "1234567890") != strlen(argv[1]))
-        {
-                printf("-ERR Expecting integer for a bet\n");
-                return;
-        }
+	if (strspn(argv[1], "1234567890") != strlen(argv[1]))
+	{
+		printf("-ERR Expecting integer for a bet\n");
+		return;
+	}
 
-        int bet = atoi(argv[1]);
+	int bet = atoi(argv[1]);
 
-        deck_init(&game->deck);
-        deck_shuffle(&game->deck);
+	deck_init(&game->deck);
+	deck_shuffle(&game->deck);
 
-        hand_init(&game->player);
-        hand_init(&game->dealer);
+	hand_init(&game->player);
+	hand_init(&game->dealer);
 
-        deck_deal(&game->deck, &game->player);
-        deck_deal(&game->deck, &game->player);
+	deck_deal(&game->deck, &game->player);
+	deck_deal(&game->deck, &game->player);
 
-        deck_deal(&game->deck, &game->dealer);
-        deck_deal(&game->deck, &game->dealer);
+	deck_deal(&game->deck, &game->dealer);
+	deck_deal(&game->deck, &game->dealer);
 
-        game->bet = atoi(argv[1]);
-        game->state = STATE_PLAYING;
+	game->bet = atoi(argv[1]);
+	game->state = STATE_PLAYING;
 
-        char faceup = game->dealer.cards[0];
+	char faceup = game->dealer.cards[0];
 
-        printf("+OK BET %d HAND %s %d FACEUP %c %d\n", game->bet, hand_string(&game->player), hand_value(&game->player), faceup, card_value(faceup));
+	printf("+OK BET %d HAND %s %d FACEUP %c %d\n", game->bet, hand_string(&game->player), hand_value(&game->player), faceup, card_value(faceup));
 }
 
 void cmd_hit(struct game *game, int argc, char *argv[])
 {
-        if (game->state != STATE_PLAYING)
-        {
-                printf("-ERR You are not playing a game\n");
-                return;
-        }
+	if (game->state != STATE_PLAYING)
+	{
+		printf("-ERR You are not playing a game\n");
+		return;
+	}
 
-        deck_deal(&game->deck, &game->player);
+	deck_deal(&game->deck, &game->player);
 
-        if (hand_value(&game->player) > 21)
-        {
-                printf("+OK BUST %s %d", hand_string(&game->player), hand_value(&game->player));
-                printf(" DEALER %s %d\n", hand_string(&game->dealer), hand_value(&game->dealer));
-                game->state = STATE_IDLE;
-                return;
-        }
+	if (hand_value(&game->player) > 21)
+	{
+		printf("+OK BUST %s %d", hand_string(&game->player), hand_value(&game->player));
+		printf(" DEALER %s %d\n", hand_string(&game->dealer), hand_value(&game->dealer));
+		game->state = STATE_IDLE;
+		return;
+	}
 
-        printf("+OK GOT %s %d\n", hand_string(&game->player), hand_value(&game->player));
+	printf("+OK GOT %s %d\n", hand_string(&game->player), hand_value(&game->player));
 }
 
 void cmd_stand(struct game *game, int argc, char *argv[])
 {
-        if (game->state != STATE_PLAYING)
-        {
-                printf("-ERR You are not playing a game\n");
-                return;
-        }
+	if (game->state != STATE_PLAYING)
+	{
+		printf("-ERR You are not playing a game\n");
+		return;
+	}
 
-        while (hand_value(&game->dealer) < 17)
-                deck_deal(&game->deck, &game->dealer);
+	while (hand_value(&game->dealer) < 17)
+		deck_deal(&game->deck, &game->dealer);
 
-        game_finish(game);
+	game_finish(game);
 }
 
 void cmd_hand(struct game *game, int argc, char *argv[])
 {
-        int i;
+	int i;
 
-        if (game->state != STATE_PLAYING)
-        {
-                printf("-ERR You are not playing a game\n");
-                return;
-        }
+	if (game->state != STATE_PLAYING)
+	{
+		printf("-ERR You are not playing a game\n");
+		return;
+	}
 
-        for (i = 0; i < game->player.ncards; i++)
-            printf("%c", game->player.cards[i]);
+	for (i = 0; i < game->player.ncards; i++)
+		printf("%c", game->player.cards[i]);
 
-		value = hand_value(&game->player);
-        printf(" %d\n", hand_value(&game->player));
+	value = hand_value(&game->player);
+	printf(" %d\n", hand_value(&game->player));
+}
+
+void cmd_logout(struct game *game, int argc, char *argv[])
+{
+	nprintf("+OK Done\n");
+	game_finish(game);
 }
 
 struct command
 {
-        const char *cmd;
-        int args;
-        void (*fn)(struct game *game, int argc, char *argv[]);
+	const char *cmd;
+	int args;
+	void (*fn)(struct game *game, int argc, char *argv[]);
 };
 
 static struct command commands[] =
-{
-        { "BET",     2, cmd_bet },
-        { "HIT",     1, cmd_hit },
-        { "STAND",   1, cmd_stand },
-		{ "HAND",    1, cmd_hand },
-        { NULL, 0, NULL }
-};
+	{
+		{"BET", 2, cmd_bet},
+		{"HIT", 1, cmd_hit},
+		{"STAND", 1, cmd_stand},
+		{"HAND", 1, cmd_hand},
+		{"EXIT", 1, cmd_logout},
+		{NULL, 0, NULL}};
 
 void command(struct game *game, int argc, char *argv[])
 {
-        struct command *c = commands;
+	struct command *c = commands;
 
-        while (c->cmd != NULL)
-        {
-                if (!strcasecmp(c->cmd, argv[0]))
-                        break;
+	while (c->cmd != NULL)
+	{
+		if (!strcasecmp(c->cmd, argv[0]))
+			break;
 
-                c++;
-        }
+		c++;
+	}
 
-        if (c->cmd == NULL)
-        {
-                printf("-ERR Unknown command\n");
-                return;
-        }
+	if (c->cmd == NULL)
+	{
+		printf("-ERR Unknown command\n");
+		return;
+	}
 
-        if (argc < c->args)
-        {
-                printf("-ERR Not enough arguments\n");
-                return;
-        }
+	if (argc < c->args)
+	{
+		printf("-ERR Not enough arguments\n");
+		return;
+	}
 
-        c->fn(game, argc, argv);
+	c->fn(game, argc, argv);
 }
 
 //Main function
@@ -476,29 +486,49 @@ int main(void)
 
 	//Starting local blackjack
 	char *cp;
-    pid_t pid;
-    int argc;
-    char *argv[MAXARGS];
-    struct game game;
+	pid_t pid;
+	int argc;
+	char *argv[MAXARGS];
+	struct game game;
 
 	srand(boot ^ pid);
 
-    game.user = "acidburn";
-    game.state = STATE_IDLE;
+	game.user = "acidburn";
+	game.state = STATE_IDLE;
 
-    printf("+OK Local BlackJack open\n");
+	printf("+OK Local BlackJack open\n");
 
 	int money = atoi(cmoney);
 
+	//while (money < 1000000)
+	//{
+	//BET money
+	argv[0] = "BET";
+	argv[1] = "1";
+	command(&game, 2, argv);
 
-		argv[0] = "BET";
+	//check value
+	argv[0] = "HAND";
+	command(&game, 1, argv);
+	// printf("%d\n", value);
+
+	if (value < 21)
+	{
+		argv[0] = "HIT";
 		argv[1] = "1";
-		command(&game, 2, argv);
-
-		argv[0] = "HAND";
 		command(&game, 1, argv);
-
-		printf("%d\n", value);
+	}
+	else if (value == 21)
+	{
+		printf("WIN\n");
+	}
+	else
+	{ //value is > 21
+		argv[0] = "EXIT";
+		argv[1] = "1";
+		command(&game, 1, argv);
+	}
+	//}
 
 	return 0;
 }
