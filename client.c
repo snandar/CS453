@@ -390,7 +390,7 @@ void command(struct game *game, int argc, char *argv[])
         c->fn(game, argc, argv);
 }
 
-int blackj(char *line)
+int blackj(char *cline)
 {
         char *cp;
         pid_t pid;
@@ -405,13 +405,13 @@ int blackj(char *line)
 
         printf("+OK Welcome to the Blackjack server!\n");
 
-        if ((cp = strrchr(line, '\n')))
+        if ((cp = strrchr(cline, '\n')))
             *cp = 0;
 
-			argc = split(line, argv, MAXARGS);
+			char line[1024];
 
-            command(&game, argc, argv);
-        
+			strncpy(line, cline, 1023);
+			line[1024] = '\0';
 
         return 0;
 }
