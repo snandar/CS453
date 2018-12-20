@@ -9,7 +9,6 @@
 #include <errno.h>
 #include <time.h>
 #include <ctype.h>
-#include "fdutil.h"
 #include "deck.h"
 #include "misc.h"
 
