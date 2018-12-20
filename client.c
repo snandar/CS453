@@ -531,6 +531,7 @@ int main(void)
 				printf(" win");
 				printf("%d hits\n", hit);
 				win = 0;
+				hit = 0;
 			}
 			else{
 				printf(" lose");
@@ -552,11 +553,11 @@ int main(void)
 		}
 		else if(value > 0 && value <21){
 			//HIT
+			hit++;
 			argv[0] = "HIT";
 			argv[1] = "1";
 			command(&game, 1, argv);
 			count++;
-			hit++;
 			continue;
 		}
 		else if(value == 21){
