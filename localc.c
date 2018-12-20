@@ -433,7 +433,7 @@ int main(void)
 	int fd = -1;
 	struct sockaddr_in sa;
 	char buf[4096];
-	int epoch 1234567890;
+	int epoch = 1234567890;
 	char cpid[5];
 
 	printf("hello. What is the pid? ");
