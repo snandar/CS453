@@ -7,6 +7,9 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <errno.h>
+#include <time.h>
+#include <ctype.h>
+#include <stdlib.h>
 
 //COPY FROM DECK.C
 #define DECK_SIZE	52
