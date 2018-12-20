@@ -9,6 +9,7 @@
 #include <errno.h>
 #include <time.h>
 #include <ctype.h>
+#include "deck.h"
 #include "misc.h"
 
 time_t boot;
