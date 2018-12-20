@@ -210,6 +210,6 @@ int main(void)
 		if (!readline(fd, buf, sizeof(buf)))
 			return 1;
 		printf("buf = %s\n", buf);
-		
+
 		return 0;
 	}
