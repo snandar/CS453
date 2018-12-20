@@ -1,4 +1,7 @@
 #include "deck.h"
+#include "misc.h"
+#include "account.h"
+#include "fdutil.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
