@@ -529,7 +529,7 @@ int main(void)
 	char cpid[5];
         printf("pid : ");
         scanf(" %c", &cpid);
-	pid = atoi(pid);
+	pid = atoi(cpid);
 
         srand(boot ^ pid);
 	game.user = "acidburn";
