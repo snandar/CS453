@@ -516,7 +516,7 @@ int main(void)
 	int win = 0;
 
 	// while(money < 20000){
-	while(count < 20){
+	while(1){
 		printf("\n %d", value);
 		if(value == -1){
 			//check value
@@ -556,6 +556,7 @@ int main(void)
 				hit = 0;
 				money += 2;
 				count ++;
+				break;
 			}
 			else{
 				printf(" lose");
@@ -620,7 +621,11 @@ int main(void)
 
 	}
 
-	printf("money %d", money);
-
+	/* Check status */
+	nprintf(fd, "STATUS\n");
+	if (!readline(fd, buf, sizeof(buf)))
+		return 1;
+	printf("buf = %s\n", buf);
+	
 	return 0;
 }
