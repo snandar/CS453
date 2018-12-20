@@ -323,6 +323,7 @@ void cmd_bet(struct game *game, int argc, char *argv[])
 
 void cmd_hit(struct game *game, int argc, char *argv[])
 {
+	value = hand_value(&game->player);
 	if (game->state != STATE_PLAYING)
 	{
 		printf("-ERR You are not playing a game\n");
@@ -508,12 +509,13 @@ int main(void)
 	int count = 0;
 	while (count < 3 )
 	{
-		//check value
-		argv[0] = "HAND";
-		command(&game, 1, argv);
-		// printf("%d\n", value);
-
-		if (value < 21)
+		if(value == -1){
+			//check value
+			argv[0] = "HAND";
+			command(&game, 1, argv);
+			// printf("%d\n", value);
+		}
+		else if (value < 21 && value > 0)
 		{
 			argv[0] = "HIT";
 			argv[1] = "1";
@@ -529,7 +531,6 @@ int main(void)
 			//BET money
 			count = 3;
 		}
-
 		count++;
 	}
 
